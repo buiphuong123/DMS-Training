@@ -13,7 +13,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
+                    <img src="{{asset(Auth::user()->avatar)}}" alt=""/>
                     {{ __('You are logged in!') }}
                 </div>
             </div>
