@@ -53,7 +53,8 @@ class RegisterController extends Controller
             'username' => [ 'required','string','max:40'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'avatar'  => ['sometimes', 'image', 'mimes:jpg,jpeg,bmp,svg,png', 'max:10000'],
+            'avatar'  => ['sometimes', 'image', 'mimes:jpg,jpeg,bmp,svg,png', 'max:5000'],
+            'description' => ['required', 'string', 'max: 255']
         ]);
     }
 
@@ -70,11 +71,12 @@ class RegisterController extends Controller
             $avatarname = time() . '.' . $avataruploaded->getClientOriginalExtension();
             $avatarpath = public_path('/images/');
             $avataruploaded->move($avatarpath, $avatarname);
-            
+            $des= request()->input('description');
             return User::create([
                 'avatar' => '/images/' . $avatarname,
                 'username' => $data['username'],
                 'email' => $data['email'],
+                'description' => $des,
                 'password' => Hash::make($data['password']),
                 
             ]);
@@ -82,7 +84,9 @@ class RegisterController extends Controller
         return User::create([
             'username' => $data['username'],
             'email' => $data['email'],
+            'description' => $des,
             'password' => Hash::make($data['password']),
+            
         ]);
     }
 
