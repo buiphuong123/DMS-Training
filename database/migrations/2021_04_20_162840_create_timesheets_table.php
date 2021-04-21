@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTimesheetTable extends Migration
+class CreateTimesheetsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTimesheetTable extends Migration
      */
     public function up()
     {
-        Schema::create('timesheet', function (Blueprint $table) {
+        Schema::create('timesheets', function (Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->string('name');
             $table->string('hard');
@@ -21,7 +21,6 @@ class CreateTimesheetTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
-            
         });
     }
 
@@ -32,6 +31,6 @@ class CreateTimesheetTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('timesheet');
+        Schema::dropIfExists('timesheets');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateConnectTable extends Migration
+class CreateConnectsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateConnectTable extends Migration
      */
     public function up()
     {
-        Schema::create('connect', function (Blueprint $table) {
+        Schema::create('connects', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('sheet_id')->unsigned();
-            $table->foreign('sheet_id')->references('id')->on('timesheet')->onDelete('cascade');
+            $table->foreign('sheet_id')->references('id')->on('timesheets');
             $table->integer('task_id')->unsigned();
-            $table->foreign('task_id')->references('id')->on('task')->onDelete('cascade');
+            $table->foreign('task_id')->references('id')->on('tasks');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateConnectTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('connect');
+        Schema::dropIfExists('connects');
     }
 }

@@ -51,25 +51,33 @@
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
+
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 <img src="{{asset(Auth::user()->avatar)}}" alt="" style="height: 40px ;width: 40px;border-radius: 20px;"/>
                                     {{ Auth::user()->username }}
                                 </a>
+                                
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+
+                                     <a class="dropdown-item" href="{{ route('user.edit') }}">
+                                        {{ __('Edit') }}
+                                    </a>
+
+                                    <a class="dropdown-item" href="{{ route('user.change_password') }}">
+                                        {{ __('Change Password') }}
+                                    </a>
+
+
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
-                                    <a class="dropdown-item" href="{{ url('/') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('edit-form').submit();">
-                                        {{ __('Edit') }}
-                                    </a>
+                                    
 
                                  
 

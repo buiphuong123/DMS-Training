@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+// namespace app\Http\Controllers\TimeSheetController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,3 +20,13 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/edit/user/', [App\Http\Controllers\UserController::class, 'edit'])->name('user.edit');
+
+Route::post('/edit/user', [App\Http\Controllers\UserController::class, 'update'])->name('user.update');
+
+Route::get('/change-password', [App\Http\Controllers\UserController::class, 'change_password'])->name('user.change_password');
+
+Route::post('/update-password', [App\Http\Controllers\UserController::class, 'update_password'])->name('user.update_password');
+
+Route::resource('sheet', '\App\Http\Controllers\TimeSheetController');
+// Route::get('/sheet', [App\Http\Controllers\TimeSheetController::class, 'index']);
