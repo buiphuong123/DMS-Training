@@ -26,7 +26,6 @@
                                  {{session('giatri')}}
                              </div>
                         @endif
-                        <p> pass cu ne</p>
                         @if(session('passcu'))
                             <div class="alert" role="alert">
                                  {{session('passcu')}}

@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use App\Models\User;
 class UserRequest extends FormRequest
 {
     /**
@@ -13,7 +13,7 @@ class UserRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,11 +25,11 @@ class UserRequest extends FormRequest
     {
         return [
             //
-            'username' => [ 'required','string','max:40'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:3', 'confirmed'],
-            'avatar'  => ['sometimes', 'image', 'mimes:jpg,jpeg,bmp,svg,png', 'max:5000'],
-            'description' => ['required', 'string', 'max: 255']
+            'username' =>  'required|string|max:255|unique:users',
+            'email' => 'required', 'string', 'email', 'max:255', 'unique:users',
+            'password' => 'required', 'string', 'min:3', 'confirmed',
+            'avatar'  => 'sometimes', 'image', 'mimes:jpg,jpeg,bmp,svg,png', 'max:5000',
+            'description' => 'required', 'string', 'max: 255'
         ];
     }
 }

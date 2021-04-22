@@ -14,4 +14,12 @@ class timesheet extends Model
         'plan',
         'user_id',
     ];
+
+    public function Us(){
+        return $this->belongsTo(User::class);
+    }
+
+    public function task(){
+        return $this->hasMany(task::class);
+    }
 }
