@@ -5,21 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class timesheet extends Model
+class TimeSheet extends Model
 {
     use HasFactory;
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'name',
         'hard',
         'plan',
-        'user_id',
+        'date_create',
+       
     ];
-
-    public function Us(){
-        return $this->belongsTo(User::class);
-    }
-
-    public function task(){
-        return $this->hasMany(task::class);
+    protected $table = 'time_sheets';
+    public $primaryKey = 'id';
+    public $timestamps = true;
+    public function user(){
+        return $this->belongsTo('App\Models\User');
     }
 }

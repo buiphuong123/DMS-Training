@@ -1,22 +1,41 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\timesheet;
+use App\Models\TimeSheet;
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\CreateSheetRequest;
 class TimeSheetController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $sheets = timesheet::all();// replace all peginatie(10), 10 ds bai
-        // foreach($sheets as $sheet){
-        //     echo $sheet->name;
-        // }
-        return view('sheet.view')-> with('sheets', $sheets);
+        $sheets = TimeSheet::orderBy('created_at','desc')->paginate(10);
+        $user = Auth::user();
+        if($user->hasRole('admin')){
+            $sheets = TimeSheet::paginate(10);
+        }
+        else{
+            $sheets = TimeSheet::where('user_id', $user->id)->paginate(10);
+        }
+        // $sheets = timesheet::all();
+        // dd($sheets);
+        return view('sheet.index')->with('sheets', $sheets);
     }
 
     /**
@@ -36,16 +55,17 @@ class TimeSheetController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateSheetRequest $request)
     {
-        //
-        $sheet=new timesheet();
-        $sheet->name=$request->name;
-        $sheet->hard=$request->hard;
-        $sheet->plan=$request->plan;
-        $sheet->user_id=$request->user;
+        $sheet = new timesheet();
+        $sheet->name = $request->name;
+        $sheet->hard = $request->hard;
+        $sheet->plan = $request->plan;
+        $sheet->date_create = $request->date_create;
+        $sheet->user_id = auth()->user()->id;
         $sheet->save();
-        return redirect()->route('sheet.create')->with($msg,'dang bai thanh cong');
+        $request->session()->flash('successTS','create TimeSheet success');
+        return redirect('/sheet');
     }
 
     /**
@@ -56,7 +76,7 @@ class TimeSheetController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTimesheetsTable extends Migration
+class CreateRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateTimesheetsTable extends Migration
      */
     public function up()
     {
-        Schema::create('timesheets', function (Blueprint $table) {
-            $table->increments('id')->unsigned();
+        Schema::create('roles', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->string('name');
-            $table->string('hard');
-            $table->string('plan');
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ class CreateTimesheetsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('timesheets');
+        Schema::dropIfExists('roles');
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+// namespace app\Https\Controllers\admin\UserController;
 // namespace app\Http\Controllers\TimeSheetController;
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +22,8 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/register_create', [App\Http\Controllers\RegisterController::class, 'create'])->name('user.register_create');
-Route::post('/register_update', [App\Http\Controllers\RegisterController::class, 'update'])->name('user.register_update');
+Route::post('/register_store', [App\Http\Controllers\RegisterController::class, 'store'])->name('user.register_store');
+
 
 Route::get('/edit/user/', [App\Http\Controllers\UserController::class, 'edit'])->name('user.edit');
 
@@ -31,8 +33,13 @@ Route::get('/change-password', [App\Http\Controllers\UserController::class, 'cha
 
 Route::post('/update-password', [App\Http\Controllers\UserController::class, 'update_password'])->name('user.update_password');
 
+//send mail
+Route::get('/send-mail', [App\Http\Controllers\UserController::class, 'send_mail'])->name('user.send_mail');
+
+Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:manage-users')->group(function(){
+    Route::resource('/users', '\App\Http\Controllers\Admin\UsersController');
+
+});
+
+// Timesheet
 Route::resource('sheet', '\App\Http\Controllers\TimeSheetController');
-
-
-// create timesheet 
-

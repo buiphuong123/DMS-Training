@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
+use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
     /*
@@ -26,7 +26,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    // protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -46,5 +46,15 @@ class LoginController extends Controller
     public function username()
     {
         return 'username';
+    }
+
+    public function redirectTo(){
+        if(Auth::user()->hasRole('admin')){
+            $this->redirectTo = route('admin.users.index');
+            return $this->redirectTo;
+        }
+
+        $this->redirectTo = route('sheet.index');
+        return $this->redirectTo;
     }
 }
