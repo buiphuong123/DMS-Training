@@ -5,18 +5,18 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('EDIT TimeSheet') }}</div>
-                <h1>{{$sheets->date}}</h1>
-                <div class="card-body">
-                    <form method="POST" action="{{ route('sheet.update', $sheets->id) }}">
-                        @csrf
-                        {{ method_field('PUT') }}
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('name') }}</label>
-                            <div class="col-md-6">
-                                <input id="name" name="name" class="form-control @error('name') is-invalid @enderror" required autocomplete="name" autofocus value="{{$sheets->name}}">
+                <div class="card-header">{{ __('Add new Task') }}</div>
 
-                                @error('name')
+                <div class="card-body">
+                    <form method="POST" action="{{ route('task.store') }}">
+                        @csrf
+                        <div class="form-group row">
+                            <label for="task_id" class="col-md-4 col-form-label text-md-right">{{ __('Task_id') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="task_id" type="text" class="form-control @error('task_id') is-invalid @enderror" name="task_id"  required autocomplete="task_id" autofocus>
+
+                                @error('task_id')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -25,12 +25,12 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="hard" class="col-md-4 col-form-label text-md-right">{{ __('Hard') }}</label>
+                            <label for="infomation" class="col-md-4 col-form-label text-md-right">{{ __('infomation') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="text" class="form-control @error('hard') is-invalid @enderror" name="hard"  required autocomplete="hard" value="{{$sheets->hard}}">
+                                <textarea rol="5" col="5" id="infomation" type="text" class="form-control @error('infomation') is-invalid @enderror" name="infomation" required autocomplete="infomation"></textarea>
 
-                                @error('email')
+                                @error('infomation')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -39,12 +39,12 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="avatar" class="col-md-4 col-form-label text-md-right">{{ __('Plan') }}</label>
+                            <label for="time" class="col-md-4 col-form-label text-md-right">{{ __('Time') }}</label>
 
                             <div class="col-md-6">
-                                <input id="plan" type="text" class="form-control @error('plan') is-invalid @enderror" name="plan" value="{{$sheets->plan}}">
-                               
-                                @error('plan')
+                                <textarea rol="5" col="5" id="time" type="text" class="form-control @error('time') is-invalid @enderror" name="time" required autocomplete="time"></textarea>
+
+                                @error('time')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -53,22 +53,26 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="date_create" class="col-md-4 col-form-label text-md-right">{{ __('date') }}</label>
+                            <label for="timesheet_id" class="col-md-4 col-form-label text-md-right">{{ __('timesheet_id') }}</label>
 
                             <div class="col-md-6">
-                                <input type="date" class="form-control @error('date_create') is-invalid @enderror" name="date_create" value="{{$sheets->date_create}}"></input>
-
-                                @error('date_create')
+                                <select id="timesheet_id" class="form-control @error('timesheet_id') is-invalid @enderror" name="timesheet_id" required autocomplete="timesheet_id">
+                                    @foreach($sheets as $sheet)
+                                        <option value="{{ $sheet->id }}">{{ $sheet->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('timesheet_id')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
                         </div>
+
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Update') }}
+                                    {{ __('Add Task') }}
                                 </button>
                             </div>
                         </div>
@@ -79,3 +83,4 @@
     </div>
 </div>
 @endsection
+

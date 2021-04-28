@@ -24,9 +24,9 @@ class CreateSheetRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'hard'  => 'required',
-            'plan' => 'required',
+            'name' => 'required', 'string', 'max:255',
+            'hard'  => 'required', 'string', 'max:255',
+            'plan' => 'required', 'string', 'max:255',
             'date_create'   => 'required|date_format:Y-m-d',
         ];
     }

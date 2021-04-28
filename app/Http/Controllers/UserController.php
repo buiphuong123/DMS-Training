@@ -13,7 +13,7 @@ class UserController extends Controller
         $to_name = "bui phuong";
         $to_email = "buithiphuong07031999@gmail.com";
 
-        $data = array("name" => "Mail tu tai khoan khach hang" ,"body"=>'Mail gui ve van de hang hoa');
+        $data = array("name" => "Mail" ,"body"=>'Mail doi mat khau');
         Mail::send('user.send_mail', $data, function($message) use($to_name,$to_email){
             $message->to($to_email)->subject('test thu gui mail');// send this mail with subject
             $message->from($to_email, $to_name);// send from this mail
@@ -78,6 +78,3 @@ class UserController extends Controller
         }
     }
 }
-
-
-// trang 56

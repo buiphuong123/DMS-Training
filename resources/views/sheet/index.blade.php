@@ -13,7 +13,6 @@
   @if ($sheets->isEmpty())
     <p class="alert alert-sucess"> not TimeSheet</p>
   @else
-      
       <table class="table">  
           <thead>
           <tr>
@@ -21,6 +20,7 @@
               <th scope="col">Hard</th>
               <th scope="col">Plan</th>
               <th scope="col">Date</th>
+              <th scope="col">Task</th>
               <th scope="col">Action</th>
           </tr>
           </thead>
@@ -32,8 +32,15 @@
                   <td>{{$sheet->plan}}</td>
                   <td>{{$sheet->date_create}}</td>
                   <td>
-                        <button type="submit" class="btn btn-primary">Edit</button>
-                        <button type="submit" class="btn btn-warning">Delete</button>
+                      <a href="{{ route('task.create') }}" class="btn btn-primary">Add Task</a>
+                  </td>
+                  <td>
+                        <a href="{{ route('sheet.edit', $sheet->id) }}"><button type="submit" class="btn btn-primary">Edit</button></a>
+                        <form action="{{route('sheet.destroy', $sheet->id)}}" class="float-left" method= "POST">
+                          @csrf
+                          {{method_field('DELETE')}}
+                            <button type="submit" class="btn btn-warning">Delete</button>
+                        </form>
                   </td>
             </tr>
             @endforeach

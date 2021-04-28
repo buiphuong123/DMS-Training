@@ -1,5 +1,4 @@
-
- @extends('layouts.app')
+@extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -9,9 +8,8 @@
                 <div class="card-header">{{ __('Add new TimeSheet') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('sheet.store') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('sheet.store') }}">
                         @csrf
-                        
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('TimeSheet') }}</label>
 
@@ -30,7 +28,7 @@
                             <label for="hard" class="col-md-4 col-form-label text-md-right">{{ __('Hard') }}</label>
 
                             <div class="col-md-6">
-                                <input id="hard" type="text" class="form-control @error('hard') is-invalid @enderror" name="hard" required autocomplete="hard">
+                                <textarea rol="5" col="5" id="hard" type="text" class="form-control @error('hard') is-invalid @enderror" name="hard" required autocomplete="hard"></textarea>
 
                                 @error('hard')
                                     <span class="invalid-feedback" role="alert">
@@ -44,7 +42,7 @@
                             <label for="plan" class="col-md-4 col-form-label text-md-right">{{ __('Plan') }}</label>
 
                             <div class="col-md-6">
-                                <input id="plan" type="text" class="form-control @error('plan') is-invalid @enderror" name="plan" required autocomplete="plan">
+                                <textarea rol="5" col="5" id="plan" type="text" class="form-control @error('plan') is-invalid @enderror" name="plan" required autocomplete="plan"></textarea>
 
                                 @error('plan')
                                     <span class="invalid-feedback" role="alert">

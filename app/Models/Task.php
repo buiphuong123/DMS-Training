@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Task;
-class TimeSheet extends Model
+use App\Models\timesheet;
+class Task extends Model
 {
     use HasFactory;
     /**
@@ -14,20 +14,16 @@ class TimeSheet extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'hard',
-        'plan',
-        'date_create',
-       
+        'task_id',
+        'infomation',
+        'time',
     ];
-    protected $table = 'time_sheets';
+
+    protected $table = 'tasks';
     public $primaryKey = 'id';
     public $timestamps = true;
-    public function user(){
-        return $this->belongsTo('App\Models\User');
-    }
-    public function task()
-    {
-        return $this->hasMany('App\Models\Task');
+    public function timesheet(){
+        return $this->belongsTo('App\Models\timesheet');
     }
 }
+    

@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\User;
-class UserRequest extends FormRequest
+
+class CreateTaskRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,9 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' =>  'required|string|max:255|unique:users',
-            'email' => 'required', 'string', 'email', 'max:255', 'unique:users',
-            'password' => 'required', 'string', 'min:3', 'confirmed',
-            'avatar'  => 'sometimes', 'image', 'mimes:jpg,jpeg,bmp,svg,png', 'max:5000',
-            'description' => 'required', 'string', 'max: 255'
+            'task_id' => 'required', 'string', 'max:40',
+            'infomation' => 'required', 'string', 'max:255',
+            'time' => 'required',
         ];
     }
 }
