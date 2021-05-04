@@ -42,6 +42,7 @@
                             <button type="submit" class="btn btn-warning">Delete</button>
                         </form>
                   </td>
+                  
             </tr>
             @endforeach
             </tbody>

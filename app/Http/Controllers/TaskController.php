@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Task;
-use App\Models\TimeSheet;
+use App\Models\User;
+use App\Models\timesheet;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CreateTaskRequest;
 
 class TaskController extends Controller
@@ -16,7 +18,14 @@ class TaskController extends Controller
      */
     public function index()
     {
-        echo 'haha';
+        // $user_id = Auth::user()->id;
+        // $sheets = User::find($user_id)->timesheet;
+        // foreach($sheets as $sheet){
+        //     echo $sheet->id;
+        // }
+
+        $tasks = timesheet::with(['task', 'timesheet']);
+        return view('task.index', compact('tasks'));
     }
 
     /**
@@ -42,7 +51,7 @@ class TaskController extends Controller
         $task->task_id = $request->task_id;
         $task->infomation = $request->infomation;
         $task->time = $request->time;
-        $task->timesheet_id = $request->timesheet_id;
+        // $task->timesheet_id = $request->timesheet_id;
         $task->save();
         $request->session()->flash('success','create task success');
         return redirect('/task');

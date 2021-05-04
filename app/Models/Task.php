@@ -14,7 +14,6 @@ class Task extends Model
      * @var array
      */
     protected $fillable = [
-        'task_id',
         'infomation',
         'time',
     ];
@@ -23,7 +22,7 @@ class Task extends Model
     public $primaryKey = 'id';
     public $timestamps = true;
     public function timesheet(){
-        return $this->belongsTo('App\Models\timesheet');
+        return $this->belongsToMany('App\Models\timesheet', 'task_timesheet', 'tasks_id', 'sheet_id');
     }
 }
     
