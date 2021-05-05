@@ -3,100 +3,37 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
-use App\Models\User;
-use App\Models\Role;
-use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use App\Http\Request\UserRequest;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\UserRequest;
 class RegisterController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
-
-    use RegistersUsers;
-
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = RouteServiceProvider::HOME;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function create()
     {
-        $this->middleware('guest');
+        return view('auth.register');
     }
-
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'username' => [ 'required','string','max:40'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'avatar'  => ['sometimes', 'image', 'mimes:jpg,jpeg,bmp,svg,png', 'max:5000'],
-            'description' => ['required', 'string', 'max: 255']
-        ]);
+   public function store(UserRequest $request)
+   {
+       $user = new User();
+       $user->username = $request->get('username','');
+       $user->email = $request->email;
+       $user->password = Hash::make($request->password);
+       $user->description = $request->input('description');
+       if (request()->hasFile('avatar'))
+       {
+           $avataruploaded = request()->file('avatar');
+           $avatarname = time() . '.' . $avataruploaded->getClientOriginalExtension();
+           $avatarpath = public_path('/images/');
+           $avataruploaded->move($avatarpath, $avatarname);
+           $user->avatar = '/images/' . $avatarname;
+       }
+       else
+       {
+         $user->avatar = '';
+       }
+       $user->save();
+       $request->session()->flash('success','register User success');
+       return route('sheet.index');
     }
-
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\Models\User
-     */
-    protected function create(array $data)
-    {
-        $des = request()->input('description');
-        if(request()->hasFile('avatar')){
-            $avataruploaded = request()->file('avatar');
-            $avatarname = time() . '.' . $avataruploaded->getClientOriginalExtension();
-            $avatarpath = public_path('/images/');
-            $avataruploaded->move($avatarpath, $avatarname);
-           $user = User::create([
-                'avatar' => '/images/' . $avatarname,
-                'username' => $data['username'],
-                'email' => $data['email'],
-                'description' => $des,
-                'password' => Hash::make($data['password']),
-                
-            ]);
-            $role = Role::select('id')->where('name', 'user')->first();
-            $user->roles()->attach($role);
-            return $user;
-        }
-        $user = User::create([
-            'username' => $data['username'],
-            'email' => $data['email'],
-            'description' => $des,
-            'password' => Hash::make($data['password']),
-            
-        ]);
-        $role = Role::select('id')->where('name', 'user')->first();
-            $user->roles()->attach($role);
-            return $user;
-    }
-
-    
 }

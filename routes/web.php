@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-// namespace app\Https\Controllers\admin\UserController;
-// namespace app\Http\Controllers\TimeSheetController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,8 +20,8 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 //register
-Route::get('/register_create', [App\Http\Controllers\RegisterController::class, 'create'])->name('user.register_create');
-Route::post('/register_store', [App\Http\Controllers\RegisterController::class, 'store'])->name('user.register_store');
+Route::get('/register_create', [App\Http\Controllers\Auth\RegisterController::class, 'create'])->name('user.register_create');
+Route::post('/register_store', [App\Http\Controllers\Auth\RegisterController::class, 'store'])->name('user.register_store');
 
 //edit
 Route::get('/edit/user/', [App\Http\Controllers\UserController::class, 'edit'])->name('user.edit');
