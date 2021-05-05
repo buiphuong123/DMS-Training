@@ -15,8 +15,8 @@ class CreateTaskTimesheetTable extends Migration
     {
         Schema::create('task_timesheet', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('sheet_id');
-            $table->integer('tasks_id');
+            $table->integer('sheet_id')->unsigned();
+            $table->integer('tasks_id')->unsigned();
             $table->timestamps();
         });
     }

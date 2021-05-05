@@ -34,10 +34,10 @@ td, th {
 
                         @foreach($users as $user)
                         <tr>
-                            <td>{{ $user->id}}</td>
-                            <td>{{ $user->username}}</td>
-                            <td>{{ $user->email}}</td>
-                            <td>{{implode(', ', $user->roles()->get()->pluck('name')-> toArray())}}</td>
+                            <td>{{$user->id}}</td>
+                            <td>{{$user->username}}</td>
+                            <td>{{$user->email}}</td>
+                            <td>{{implode(', ', $user->roles()->get()->pluck('name')->toArray())}}</td>
                             <td>
                                 <!-- @can('edit-users') -->
                                 <a href="{{route('admin.users.edit',$user->id)}}"> <button type="button" class="btn btn-primary float-left">Edit</button></a>

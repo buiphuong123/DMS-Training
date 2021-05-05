@@ -32,15 +32,16 @@
                   <td>{{$sheet->plan}}</td>
                   <td>{{$sheet->date_create}}</td>
                   <td>
-                      <a href="{{ route('task.create') }}" class="btn btn-primary">Add Task</a>
+                      <a href="{{ route('sheet.task.create',$sheet->id) }}" class="btn btn-primary">Add Task</a>
                   </td>
                   <td>
                         <a href="{{ route('sheet.edit', $sheet->id) }}"><button type="submit" class="btn btn-primary">Edit</button></a>
-                        <form action="{{route('sheet.destroy', $sheet->id)}}" class="float-left" method= "POST">
+                        <form action="{{ route('sheet.destroy', $sheet->id) }}" class="float-left" method= "POST">
                           @csrf
                           {{method_field('DELETE')}}
                             <button type="submit" class="btn btn-warning">Delete</button>
                         </form>
+                        <a href="{{ route('sheet.task.index', $sheet->id) }}" class="btn btn-primary">Show Task</a>
                   </td>
                   
             </tr>

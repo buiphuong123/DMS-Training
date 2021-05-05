@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserRequest;
 class RegisterController extends Controller
@@ -33,7 +34,8 @@ class RegisterController extends Controller
          $user->avatar = '';
        }
        $user->save();
-       $request->session()->flash('success','register User success');
+       $role = Role::select('id')->where('name', 'user')->first();
+       $user->roles()->attach($role);
        return route('sheet.index');
     }
 }

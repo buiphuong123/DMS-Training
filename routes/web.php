@@ -43,4 +43,4 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:mana
 Route::resource('sheet', '\App\Http\Controllers\TimeSheetController');
 
 // Task
-Route::resource('task', '\App\Http\Controllers\TaskController');
+Route::resource('sheet.task', '\App\Http\Controllers\TaskController');

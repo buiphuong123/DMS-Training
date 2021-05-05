@@ -16,16 +16,11 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        // $user_id = Auth::user()->id;
-        // $sheets = User::find($user_id)->timesheet;
-        // foreach($sheets as $sheet){
-        //     echo $sheet->id;
-        // }
-
-        $tasks = timesheet::with(['task', 'timesheet']);
-        return view('task.index', compact('tasks'));
+       $sheets = TimeSheet::find($id);
+       $tasks = $sheets->task; 
+       return view('task.index')->with('tasks', $tasks)->with('sheets', $sheets);
     }
 
     /**
@@ -33,9 +28,9 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        $sheets = TimeSheet::all();
+        $sheets = TimeSheet::find($id); 
         return view('task.create')->with('sheets', $sheets);
     }
 
@@ -45,16 +40,17 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateTaskRequest $request)
+    public function store(CreateTaskRequest $request, $id)
     {
         $task = new Task();
         $task->task_id = $request->task_id;
         $task->infomation = $request->infomation;
         $task->time = $request->time;
-        // $task->timesheet_id = $request->timesheet_id;
         $task->save();
+        $timesheet = TimeSheet::select('id')->where('id', $id)->first();
+        $task->timesheet()->attach($timesheet);
         $request->session()->flash('success','create task success');
-        return redirect('/task');
+        return route('sheet.task.index', $id);
     }
 
     /**
@@ -74,9 +70,9 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($task, $sheet)
     {
-        //
+        return view('')
     }
 
     /**

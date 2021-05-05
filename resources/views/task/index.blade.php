@@ -1,9 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-  
- 
- <table class="table">  
+
+<h1 style="text-align: center;color: red">{{$sheets->name}}</h1>
+@if ($tasks->isEmpty())
+    <p class="alert alert-sucess"> not task</p>
+@else
+<table class="table">  
           <thead>
           <tr>
               <th scope="col">task_id</th>
@@ -19,7 +22,7 @@
                   <td>{{$task->infomation}}</td>
                   <td>{{$task->time}}</td>
                   <td>
-                        <button type="submit" class="btn btn-primary">Edit</button>
+                        <a href="{{ route('sheet.task.edit',['sheet'=>$sheets, 'task'=>$task]) }}"><button type="submit" class="btn btn-primary">Edit</button></a>
                         <form action="#" class="float-left" method= "POST">
                           @csrf
                           {{method_field('DELETE')}}
@@ -30,5 +33,5 @@
             @endforeach
             </tbody>
         </table>
-     
+  @endif  
 @endsection
