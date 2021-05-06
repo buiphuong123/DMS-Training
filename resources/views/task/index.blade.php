@@ -22,7 +22,7 @@
                   <td>{{$task->infomation}}</td>
                   <td>{{$task->time}}</td>
                   <td>
-                        <a href="{{ route('sheet.task.edit',['sheet'=>$sheets, 'task'=>$task]) }}"><button type="submit" class="btn btn-primary">Edit</button></a>
+                        <a href="{{ route('sheet.task.edit', [$sheets->id, $task->id]) }}"><button type="submit" class="btn btn-primary">Edit</button></a>
                         <form action="#" class="float-left" method= "POST">
                           @csrf
                           {{method_field('DELETE')}}

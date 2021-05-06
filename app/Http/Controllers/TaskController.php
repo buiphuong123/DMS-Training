@@ -70,9 +70,11 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($task, $sheet)
+    public function edit($sheets, $tasks)
     {
-        return view('')
+        $task = Task::find($tasks);
+        $sheet = TimeSheet::find($sheets);
+        return view('task.edit')->with('task', $task)->with('sheet', $sheet);
     }
 
     /**
@@ -82,9 +84,21 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $sheets, $tasks)
     {
-        //
+        $this->validate($request, [
+            'task_id' => 'required', 'string', 'max:40',
+            'infomation' => 'required', 'string', 'max:255',
+            'time' => 'required',
+        ]);
+        $sheet = TimeSheet::find($sheets);
+        $task = Task::find($tasks);
+        $task->task_id = $request['task_id'];
+        $task->infomation = $request['infomation'];
+        $task->time = $request['time'];
+        $task->save();
+        $request->session()->flash('successTS','update task success');
+        return redirect()->route('sheet.task.index', $sheets);
     }
 
     /**

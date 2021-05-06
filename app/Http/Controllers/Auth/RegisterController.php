@@ -36,6 +36,7 @@ class RegisterController extends Controller
        $user->save();
        $role = Role::select('id')->where('name', 'user')->first();
        $user->roles()->attach($role);
-       return route('sheet.index');
+       $request->session()->flash('successTS','register success');
+       return redirect()->route('sheet.index');
     }
 }

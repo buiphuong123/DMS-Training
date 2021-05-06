@@ -98,25 +98,18 @@ class TimeSheetController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'name' => 'required',
             'hard'  => 'required',
             'plan' => 'required',
             'date_create'   => 'required|date_format:Y-m-d',
         ]);
         $sheet = TimeSheet::find($id);
-        // $sheet->create([
-        //     'name' => $request['name'],
-        //     'hard' => $request['hard'],
-        //     'plan' => $request['plan'],
-        //     'date_create' => $request['date_create'],
-        // ]);
         $sheet->name = $request['name'];
         $sheet->hard = $request['hard'];
         $sheet->plan = $request['plan'];
         $sheet->date_create = $request['date_create'];
         $sheet->save();
-
         $request->session()->flash('successTS','update TimeSheet success');
         return redirect('/sheet');
     }
