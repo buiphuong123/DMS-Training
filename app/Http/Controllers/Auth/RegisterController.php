@@ -16,27 +16,22 @@ class RegisterController extends Controller
     }
    public function store(UserRequest $request)
    {
-       $user = new User();
-       $user->username = $request->get('username','');
-       $user->email = $request->email;
-       $user->password = Hash::make($request->password);
-       $user->description = $request->input('description');
-       if (request()->hasFile('avatar'))
-       {
-           $avataruploaded = request()->file('avatar');
-           $avatarname = time() . '.' . $avataruploaded->getClientOriginalExtension();
-           $avatarpath = public_path('/images/');
-           $avataruploaded->move($avatarpath, $avatarname);
-           $user->avatar = '/images/' . $avatarname;
-       }
-       else
-       {
-         $user->avatar = '';
-       }
-       $user->save();
-       $role = Role::select('id')->where('name', 'user')->first();
-       $user->roles()->attach($role);
-       $request->session()->flash('successTS','register success');
-       return redirect()->route('sheet.index');
-    }
+        $avatar = $request->file('avatar');
+        $avatar_name = time() . '.' . $avatar->getClientOriginalExtension();
+        $avatarpath = public_path('/images/');
+        $avatar->move($avatarpath, $avatar_name);
+        $user = User::create([
+            'username' => $request->get('username', ''),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->password),
+            'description' => $request->input('description'),
+            'avatar' => '/images/' . $avatar_name,
+        ]);
+        $role = Role::select('id')->where('name', 'user')->first();
+        $user->roles()->attach($role);
+        $request->session()->flash('successTS','register success');
+        return redirect('/sheet');
+   }
 }
+
+

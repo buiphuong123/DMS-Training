@@ -55,13 +55,12 @@ class TimeSheetController extends Controller
      */
     public function store(CreateSheetRequest $request)
     {
-        $sheet = new timesheet();
-        $sheet->name = $request->name;
-        $sheet->hard = $request->hard;
-        $sheet->plan = $request->plan;
-        $sheet->date_create = $request->date_create;
-        $sheet->user_id = auth()->user()->id;
-        $sheet->save();
+        Auth::user()->timesheet()->create([
+            'name' => $request->input('name'),
+            'hard' => $request->input('hard'),
+            'plan' => $request->input('plan'),
+            'date_create' => $request->input('date_create'),
+        ]);
         $request->session()->flash('successTS','create TimeSheet success');
         return redirect('/sheet');
     }
@@ -83,10 +82,9 @@ class TimeSheetController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(TimeSheet $sheet)
     {
-        $sheets = TimeSheet::find($id);
-            return view('sheet.edit')->with('sheets', $sheets);
+            return view('sheet.edit')->with('sheets', $sheet);
     }
 
     /**
@@ -96,7 +94,7 @@ class TimeSheetController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, TimeSheet $sheet)
     {
         $this->validate($request, [
             'name' => 'required',
@@ -104,12 +102,12 @@ class TimeSheetController extends Controller
             'plan' => 'required',
             'date_create'   => 'required|date_format:Y-m-d',
         ]);
-        $sheet = TimeSheet::find($id);
-        $sheet->name = $request['name'];
-        $sheet->hard = $request['hard'];
-        $sheet->plan = $request['plan'];
-        $sheet->date_create = $request['date_create'];
-        $sheet->save();
+        $sheet->update([
+            'name' => $request->name,
+            'hard' => $request->hard,
+            'plan' => $request->plan,
+            'date_create' => $request->date_create,
+        ]);
         $request->session()->flash('successTS','update TimeSheet success');
         return redirect('/sheet');
     }
@@ -120,9 +118,8 @@ class TimeSheetController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      * */
-    public function destroy($id, Request $request)
+    public function destroy(TimeSheet $sheet, Request $request)
     {
-        $sheet = TimeSheet::find($id);
         $sheet->delete();
         $request->session()->flash('success','delete TimeSheet success');
         return redirect()->route('sheet.index');

@@ -13,7 +13,7 @@
                             <label for="task_id" class="col-md-4 col-form-label text-md-right">{{ __('Task_id') }}</label>
 
                             <div class="col-md-6">
-                                <input id="task_id" type="text" class="form-control @error('task_id') is-invalid @enderror" name="task_id"  required autocomplete="task_id" autofocus>
+                                <input id="task_id" type="text" class="form-control @error('task_id') is-invalid @enderror" name="task_id" value="{{ old('task_id', 'N/A') }}" >
 
                                 @error('task_id')
                                     <span class="invalid-feedback" role="alert">
@@ -27,7 +27,7 @@
                             <label for="infomation" class="col-md-4 col-form-label text-md-right">{{ __('infomation') }}</label>
 
                             <div class="col-md-6">
-                                <textarea rol="5" col="5" id="infomation" type="text" class="form-control @error('infomation') is-invalid @enderror" name="infomation" required autocomplete="infomation"></textarea>
+                                <textarea rol="5" col="5" id="infomation" class="form-control @error('infomation') is-invalid @enderror" name="infomation"></textarea>
 
                                 @error('infomation')
                                     <span class="invalid-feedback" role="alert">

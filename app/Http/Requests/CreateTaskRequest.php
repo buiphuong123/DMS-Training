@@ -24,8 +24,8 @@ class CreateTaskRequest extends FormRequest
     public function rules()
     {
         return [
-            'task_id' => 'required', 'string', 'max:40',
-            'infomation' => 'required', 'string', 'max:255',
+            'task_id' => 'nullable', 'string', 'max:40',
+            'infomation' => 'nullable', 'string', 'max:255',
             'time' => 'required',
         ];
     }

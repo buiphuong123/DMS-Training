@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\User;
-use App\Models\timesheet;
+use App\Models\TimeSheet;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CreateTaskRequest;
 
@@ -16,11 +16,10 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index(TimeSheet $sheet)
     {
-       $sheets = TimeSheet::find($id);
-       $tasks = $sheets->task; 
-       return view('task.index')->with('tasks', $tasks)->with('sheets', $sheets);
+       $tasks = $sheet->task; 
+       return view('task.index')->with('tasks', $tasks)->with('sheets', $sheet);
     }
 
     /**
@@ -28,10 +27,9 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($id)
-    {
-        $sheets = TimeSheet::find($id); 
-        return view('task.create')->with('sheets', $sheets);
+    public function create(TimeSheet $sheet)
+    { 
+        return view('task.create')->with('sheets', $sheet);
     }
 
     /**
@@ -40,17 +38,15 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateTaskRequest $request, $id)
+    public function store(TimeSheet $sheet, CreateTaskRequest $request)
     {
-        $task = new Task();
-        $task->task_id = $request->task_id;
-        $task->infomation = $request->infomation;
-        $task->time = $request->time;
-        $task->save();
-        $timesheet = TimeSheet::select('id')->where('id', $id)->first();
-        $task->timesheet()->attach($timesheet);
+        $sheet->task()->create([
+            'task_id' => $request->input('task_id'),
+            'infomation' => $request->input('infomation'),
+            'time' => $request->input('time'),
+        ]);
         $request->session()->flash('success','create task success');
-        return route('sheet.task.index', $id);
+        return redirect()->route('sheet.task.index', $sheet);
     }
 
     /**
@@ -70,10 +66,8 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($sheets, $tasks)
+    public function edit(TimeSheet $sheet, Task $task)
     {
-        $task = Task::find($tasks);
-        $sheet = TimeSheet::find($sheets);
         return view('task.edit')->with('task', $task)->with('sheet', $sheet);
     }
 
@@ -84,21 +78,20 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $sheets, $tasks)
+    public function update(Request $request, TimeSheet $sheet, Task $task)
     {
         $this->validate($request, [
             'task_id' => 'required', 'string', 'max:40',
             'infomation' => 'required', 'string', 'max:255',
             'time' => 'required',
         ]);
-        $sheet = TimeSheet::find($sheets);
-        $task = Task::find($tasks);
-        $task->task_id = $request['task_id'];
-        $task->infomation = $request['infomation'];
-        $task->time = $request['time'];
-        $task->save();
+        $task->update([
+            'task_id' => $request->task_id,
+            'infomation' => $request->infomation,
+            'time' => $request->time, 
+        ]);
         $request->session()->flash('successTS','update task success');
-        return redirect()->route('sheet.task.index', $sheets);
+        return redirect()->route('sheet.task.index', $sheet);
     }
 
     /**
@@ -107,8 +100,10 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(TimeSheet $sheet, Task $task, Request $request)
     {
-        //
+        $task->delete();
+        $request->session()->flash('success', 'delete Task success');
+        return redirect()->route('sheet.task.index', $sheet);
     }
 }
