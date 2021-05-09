@@ -45,3 +45,6 @@ Route::resource('sheet', '\App\Http\Controllers\TimeSheetController');
 // Task
 Route::resource('sheet.task', '\App\Http\Controllers\TaskController');
 // Route::post('sheet/{id}/task', [App\Http\Controllers\UserController::class, 'edit'])->where('id', '[0-9]+')->name('sheet.task.store');
+
+
+Route::get('/report', [App\Http\Controllers\ReportController::class, 'index'])->name('report.index');
