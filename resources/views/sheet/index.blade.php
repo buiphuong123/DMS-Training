@@ -6,10 +6,12 @@
   <div>
     <h1>TIMESHEET MANAGMENT</h1>
   </div>
+
   <div class="col-md-6 text-right">
     <a href="{{route('sheet.create')}}" class="btn btn-primary">Add TimeSheet</a>
   </div>
 </div>
+
   @if ($sheets->isEmpty())
     <p class="alert alert-sucess"> not TimeSheet</p>
   @else
@@ -52,5 +54,5 @@
           {{ $sheets->links() }}
            
  @endif
- 
+
 @endsection

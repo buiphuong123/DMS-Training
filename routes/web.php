@@ -41,7 +41,6 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:mana
 
 // Timesheet
 Route::resource('sheet', '\App\Http\Controllers\TimeSheetController');
-
 // Task
 Route::resource('sheet.task', '\App\Http\Controllers\TaskController');
 // Route::post('sheet/{id}/task', [App\Http\Controllers\UserController::class, 'edit'])->where('id', '[0-9]+')->name('sheet.task.store');
