@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 use App\Models\TimeSheet;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Exports\TimeSheetExport;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CreateSheetRequest;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TimeSheetController extends Controller
 {
@@ -28,7 +30,7 @@ class TimeSheetController extends Controller
     {
         $sheets = TimeSheet::orderBy('created_at','desc')->paginate(10);
         $user = Auth::user();
-        if($user->hasRole('admin')){
+        if($user->hasAnyRoles(['admin'])){
             $sheets = TimeSheet::paginate(10);
         }
         else{
@@ -62,7 +64,7 @@ class TimeSheetController extends Controller
             'date_create' => $request->input('date_create'),
         ]);
         $request->session()->flash('successTS','create TimeSheet success');
-        return redirect('/sheet');
+        return redirect()->route('sheet.index');
     }
 
     /**
@@ -109,7 +111,7 @@ class TimeSheetController extends Controller
             'date_create' => $request->date_create,
         ]);
         $request->session()->flash('successTS','update TimeSheet success');
-        return redirect('/sheet');
+        return redirect()->route('sheet.index');
     }
 
     /**
@@ -123,6 +125,11 @@ class TimeSheetController extends Controller
         $sheet->delete();
         $request->session()->flash('success','delete TimeSheet success');
         return redirect()->route('sheet.index');
+    }
+
+    public function export()
+    {
+        return Excel::download(new TimeSheetExport, 'TSExport.xlsx');
     }
  
 }

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="main-panel">
         <div class="content">
             <div class="container-fluid">
@@ -15,7 +16,7 @@
                                         </div>
                                         <div class="card-body ">
                                             <div class="form-group bmd-form-group is-filled">
-                                                <input type="month" id="month" name="date_month">
+                                                <input type="month" id="month" name="date_create" value="<?php echo date('Y-m');?>">
                                                 <button type="submit" class="btn btn-primary">Thống kê</button>
                                             </div>
                                         </div>
@@ -41,7 +42,7 @@
                                         @else
                                         <tbody>
                                         <tr>
-                                            <td>1</td>
+                                            <td> 1 </td>
                                             <td>{{ $month }}</td>
                                             <td>{{($user->username)}}</td>
                                             <td>{{ $count_timesheet->count() }}</td>
@@ -60,4 +61,5 @@
         </div>
 
     </div>
-    @endsection
+
+@endsection

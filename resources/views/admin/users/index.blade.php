@@ -49,6 +49,7 @@ td, th {
                                     <button type="submit" class="btn btn-warning">Delete</button>
                                 </form>
                                 <!-- @endcan -->
+    
                             </td>
                         </tr>
                         @endforeach 

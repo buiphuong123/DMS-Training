@@ -18,7 +18,7 @@ class UserTableSeeder extends Seeder
         User::truncate();
         DB::table('role_user')->truncate();
         $adminRole = Role::where('name','admin')->first();
-        $authorRole = Role::where('name','author')->first();
+        $managerRole = Role::where('name','manager')->first();
         $userRole = Role::where('name','user')->first();
          $admin = User::create([
              'username' => 'adminuser',
@@ -26,11 +26,11 @@ class UserTableSeeder extends Seeder
              'password' => Hash::make('dddddddd'),
              'description' => 'admin'
          ]);
-         $author = User::create([
-            'username' => 'authoruser',
-            'email' => 'author@gmail.com',
+         $manager = User::create([
+            'username' => 'manageruser',
+            'email' => 'manager@gmail.com',
             'password' => Hash::make('dddddddd'),
-            'description' => 'author'
+            'description' => 'manager'
         ]);
         $user = User::create([
             'username' => 'user',
@@ -39,7 +39,7 @@ class UserTableSeeder extends Seeder
             'description' => 'user'
         ]);
         $admin->roles()->attach($adminRole);
-        $author->roles()->attach($authorRole);
+        $manager->roles()->attach($managerRole);
         $user->roles()->attach($userRole);
     }
 }

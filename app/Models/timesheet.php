@@ -26,7 +26,7 @@ class TimeSheet extends Model
     public $primaryKey = 'id';
     public $timestamps = true;
     public function user(){
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo(User::class);
     }
     public function task()
     {
@@ -34,3 +34,4 @@ class TimeSheet extends Model
     }
     
 }
+

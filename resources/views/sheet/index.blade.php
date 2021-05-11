@@ -24,6 +24,9 @@
               <th scope="col">Date</th>
               <th scope="col">Task</th>
               <th scope="col">Action</th>
+              @if(Auth::user()->hasAnyRoles(['admin']))
+              <th scope="col">User</th>
+              @endif
           </tr>
           </thead>
           <tbody>
@@ -45,6 +48,9 @@
                         </form>
                         <a href="{{ route('sheet.task.index', $sheet->id) }}" class="btn btn-primary">Show Task</a>
                   </td>
+                  @if(Auth::user()->hasAnyRoles(['admin']))
+                  <td>Create by {{$sheet->user->username}} at {{$sheet->user->created_at}}</td>
+                  @endif
                   
             </tr>
             @endforeach
@@ -52,7 +58,9 @@
           </table>
           </div>
           {{ $sheets->links() }}
-           
+          @if(Auth::user()->hasAnyRoles(['admin']))
+            <a href="{{ route('export') }}" class="btn btn-primary">Export File</a>
+          @endif
  @endif
 
 @endsection

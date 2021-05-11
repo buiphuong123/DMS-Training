@@ -43,6 +43,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     
+    public function timesheet()
+    {        
+        return $this->hasMany('App\Models\TimeSheet');
+    }
     public function roles()
     {
         return $this->belongsToMany('App\Models\Role');
@@ -50,24 +54,13 @@ class User extends Authenticatable
 
     public function hasAnyRoles($roles)
     {
-        if($this->roles()->whereIn('name', $roles)->first()){
-            return true;
-        }
-        return false;
-    }
-
-    public function hasRole($role)
-    {
-        if($this->roles()->where('name', $role)->first())
+        if ($this->roles()->whereIn('name', $roles)->first())
         {
             return true;
         }
         return false;
     }
-    public function timesheet()
-    {        
-        return $this->hasMany('App\Models\TimeSheet');
-    }
+    
 }
 
 

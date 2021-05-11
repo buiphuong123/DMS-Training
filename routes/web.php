@@ -47,3 +47,7 @@ Route::resource('sheet.task', '\App\Http\Controllers\TaskController');
 
 
 Route::get('/report', [App\Http\Controllers\ReportController::class, 'index'])->name('report.index');
+
+//export
+Route::get('/export', [App\Http\Controllers\TimeSheetController::class, 'export'])->name('export');
+
