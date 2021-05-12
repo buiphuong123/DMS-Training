@@ -37,6 +37,20 @@
                                         <th>Số lần đăng ký trong tháng</th>
                                         <th>Số lần chậm đăng ký trong tháng</th>
                                         </thead>
+                                        @if(Auth::user()->hasAnyRoles(['admin']))
+                                            @foreach($users as $user)
+                                            <tbody>
+                                                <tr>
+                                                    <td> 1 </td>
+                                                    <td>{{ $month }}</td>
+                                                    <td>{{ ($user->username) }}</td>
+                                                    <td>{{ $count_timesheet[$user->id]->count() }}</td>
+                                                    <td>{{ $number-$count_timesheet[$user->id]->count() }}</td>
+                                                </tr>
+                                            </tbody>
+                                            @endforeach
+                                        @endif
+                                        @if(Auth::user()->hasAnyRoles(['user']))
                                         @if ( $count_timesheet->count() == 0 )
                                             <p class="alert alert-sucess"> This month not TimeSheet</p>
                                         @else
@@ -49,6 +63,7 @@
                                             <td>{{ $number-$count_timesheet->count() }}</td>
                                         </tr>
                                     </tbody>
+                                    @endif
                                     @endif
                                     </table>
                                     

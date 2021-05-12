@@ -51,3 +51,7 @@ Route::get('/report', [App\Http\Controllers\ReportController::class, 'index'])->
 //export
 Route::get('/export', [App\Http\Controllers\TimeSheetController::class, 'export'])->name('export');
 
+//calendar
+Route::get('/calendar', [App\Http\Controllers\CalendarController::class, 'index'])->name('calendar');
+
+

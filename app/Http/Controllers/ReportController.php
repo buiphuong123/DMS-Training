@@ -7,7 +7,6 @@ use App\Models\TimeSheet;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use DB;
 
 class ReportController extends Controller
 {
@@ -28,18 +27,24 @@ class ReportController extends Controller
         {  
             $number = cal_days_in_month(CAL_GREGORIAN, $month, $year);
         }
-        // if($user->hasAnyRoles(['admin', ',manager'])){
-        //     $user = User::all();
-        //     $count_timesheet = $user->timesheet()->whereMonth('date_create', $explode[1])->whereYear('date_create', '=', $explode[0])->where('user_id', $user->id)->get();
-        //     return view('report.index', compact('users', 'month', 'number'));
-        // }
-        // else{
+        if($user->hasAnyRoles(['admin', ',manager'])){
+            $users = User::all();
+            $ts_count = [];
+            foreach($users as $user){
+                $count_timesheet[$user->id] = $user->timesheet()->whereMonth('date_create', $months)->whereYear('date_create', '=', $year)->where('user_id', $user->id)->get();
+            }
+            return view('report.index', compact('users', 'count_timesheet', 'month', 'number'));
+        }
+        else{
             $count_timesheet = $user->timesheet()->whereMonth('date_create', $months)->whereYear('date_create', '=', $year)->where('user_id', $user->id)->get();
             return view('report.index', compact('user', 'count_timesheet', 'month', 'number'));
-        // }
+        }
         
     }
 
 }
+
+
+
 
 
