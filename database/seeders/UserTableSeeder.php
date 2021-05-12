@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Permissions;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -20,26 +21,39 @@ class UserTableSeeder extends Seeder
         $adminRole = Role::where('name','admin')->first();
         $managerRole = Role::where('name','manager')->first();
         $userRole = Role::where('name','user')->first();
+
+        DB::table('users_permissions')->truncate();
+        $mp = Permissions::where('name', 'manager dd')->first();
+        $md = Permissions::where('name', 'deputy')->first();
+        $mdd = Permissions::where('name', 'deputy department')->first();
+
          $admin = User::create([
              'username' => 'adminuser',
              'email' => 'admin@gmail.com',
              'password' => Hash::make('dddddddd'),
-             'description' => 'admin'
+             'description' => 'admin',
+
          ]);
          $manager = User::create([
             'username' => 'manageruser',
             'email' => 'manager@gmail.com',
             'password' => Hash::make('dddddddd'),
-            'description' => 'manager'
+            'description' => 'manager',
         ]);
         $user = User::create([
             'username' => 'user',
             'email' => 'user@gmail.com',
             'password' => Hash::make('dddddddd'),
-            'description' => 'user'
+            'description' => 'user',
         ]);
         $admin->roles()->attach($adminRole);
         $manager->roles()->attach($managerRole);
         $user->roles()->attach($userRole);
+
+        $admin->permissions()->attach($mp);
+        $manager->permissions()->attach($md);
+        $user->permissions()->attach($mdd);
+
+        
     }
 }

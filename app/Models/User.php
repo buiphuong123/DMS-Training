@@ -6,7 +6,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use App\Models\timesheet;
+use App\Models\TimeSheet;
+use App\Models\Permissions;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -52,6 +53,12 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\Role');
     }
 
+    public function permissions() {
+
+        return $this->belongsToMany('App\Models\Permissions', 'users_permissions','user_id', 'permission_id');
+            
+     }
+
     public function hasAnyRoles($roles)
     {
         if ($this->roles()->whereIn('name', $roles)->first())
@@ -62,6 +69,8 @@ class User extends Authenticatable
     }
     
 }
+
+
 
 
 
