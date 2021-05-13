@@ -37,15 +37,15 @@
                                         <th>Số lần đăng ký trong tháng</th>
                                         <th>Số lần chậm đăng ký trong tháng</th>
                                         </thead>
-                                        @if(Auth::user()->hasAnyRoles(['admin']))
+                                        @if(Auth::user()->hasAnyRoles(['admin', 'manager']))
                                             @foreach($users as $user)
                                             <tbody>
                                                 <tr>
-                                                    <td> 1 </td>
+                                                    <td>{{ $loop->index }}</td>
                                                     <td>{{ $month }}</td>
-                                                    <td>{{ ($user->username) }}</td>
+                                                    <td>{{ $user->username }}</td>
                                                     <td>{{ $count_timesheet[$user->id]->count() }}</td>
-                                                    <td>{{ $number-$count_timesheet[$user->id]->count() }}</td>
+                                                    <td>{{ $count_timesheet_late[$user->id]->count() }}</td>
                                                 </tr>
                                             </tbody>
                                             @endforeach
@@ -55,15 +55,15 @@
                                             <p class="alert alert-sucess"> This month not TimeSheet</p>
                                         @else
                                         <tbody>
-                                        <tr>
-                                            <td> 1 </td>
-                                            <td>{{ $month }}</td>
-                                            <td>{{($user->username)}}</td>
-                                            <td>{{ $count_timesheet->count() }}</td>
-                                            <td>{{ $number-$count_timesheet->count() }}</td>
-                                        </tr>
-                                    </tbody>
-                                    @endif
+                                            <tr>
+                                                <td>1</td>
+                                                <td>{{ $month }}</td>
+                                                <td>{{($user->username)}}</td>
+                                                <td>{{ $count_timesheet->count() }}</td>
+                                                <td>{{ $count_timesheet_late->count() }}</td>
+                                            </tr>
+                                        </tbody>
+                                        @endif
                                     @endif
                                     </table>
                                     

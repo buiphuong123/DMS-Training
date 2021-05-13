@@ -8,6 +8,7 @@ use App\Exports\TimeSheetExport;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CreateSheetRequest;
 use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
 
 class TimeSheetController extends Controller
 {
@@ -26,17 +27,26 @@ class TimeSheetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index(Request $request)
     {
         $sheets = TimeSheet::orderBy('created_at','desc')->paginate(10);
         $user = Auth::user();
         if($user->hasAnyRoles(['admin'])){
             $sheets = TimeSheet::paginate(10);
+            return view('sheet.index')->with('sheets', $sheets);
+        }
+        else if($user->hasAnyRoles(['manager'])){
+            $users = User::where('permission_id', $user->permission_id)->get()->pluck('id');
+            $timesheets = Timesheet::with('User:id,username');
+            $sheets = $timesheets->whereIn('user_id', $users)->get();
+            return view('sheet.manager')->with('sheets', $sheets);
         }
         else{
             $sheets = TimeSheet::where('user_id', $user->id)->paginate(10);
+            return view('sheet.index')->with('sheets', $sheets);
         }
-        return view('sheet.index')->with('sheets', $sheets);
+       
     }
 
     /**
@@ -57,14 +67,23 @@ class TimeSheetController extends Controller
      */
     public function store(CreateSheetRequest $request)
     {
-        Auth::user()->timesheet()->create([
-            'name' => $request->input('name'),
-            'hard' => $request->input('hard'),
-            'plan' => $request->input('plan'),
-            'date_create' => $request->input('date_create'),
-        ]);
-        $request->session()->flash('successTS','create TimeSheet success');
-        return redirect()->route('sheet.index');
+        $user = Auth::user();
+        $today = Carbon::now()->format('Y-m-d');
+        $countDay = Timesheet::where('user_id', $user->id)->whereDate('created_at', '=', $today)->get();
+        if($countDay->count() >= 1){
+            $request->session()->flash('error','today timesheet was created');
+            return redirect()->route('sheet.index');
+        }
+        else{
+            Auth::user()->timesheet()->create([
+                'name' => $request->input('name'),
+                'hard' => $request->input('hard'),
+                'plan' => $request->input('plan'),
+                'date_create' => $request->input('date_create'),
+            ]);
+            $request->session()->flash('successTS','create TimeSheet success');
+            return redirect()->route('sheet.index');
+        }
     }
 
     /**
@@ -73,9 +92,9 @@ class TimeSheetController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(TimeSheet $sheet)
     {
-        
+        return view('sheet.show')->with('sheet', $sheet);
     }
 
     /**

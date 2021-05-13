@@ -54,4 +54,5 @@ Route::get('/export', [App\Http\Controllers\TimeSheetController::class, 'export'
 //calendar
 Route::get('/calendar', [App\Http\Controllers\CalendarController::class, 'index'])->name('calendar');
 
-
+//managment user
+Route::get('/managment', [App\Http\Controllers\UserController::class, 'manager'])->name('managment');

@@ -23,7 +23,7 @@
         {
           title: '{{ $sheet->name }}',
           start: '{{ $sheet->date_create }}',
-          url: '{{ route('sheet.edit', $sheet->id) }}'
+          url: '{{ route('sheet.show', $sheet->id) }}'
         },
         @endforeach
       ]

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Permissions;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserRequest;
 class RegisterController extends Controller
@@ -28,10 +29,10 @@ class RegisterController extends Controller
                     'description' => $request->input('description'),
                     'avatar' => $avatarpath . $avatar_name,
                 ]);
-                $role = Role::select('id')->where('name', 'user')->first();
-                $user->roles()->attach($role);
-                $request->session()->flash('successTS','register success');
-                return redirect()->route('sheet.index');
+            $role = Role::select('id')->where('name', 'user')->first();
+            $user->roles()->attach($role);
+            $request->session()->flash('successTS','register success');
+            return redirect()->route('sheet.index');
         }
    }
 }

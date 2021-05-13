@@ -56,7 +56,7 @@
                             <label for="date_create" class="col-md-4 col-form-label text-md-right">{{ __('Date') }}</label>
 
                             <div class="col-md-6">
-                                <input type="date" class="form-control" name="date_create" ></input>
+                                <input type="date" class="form-control" name="date_create" value="<?php echo date('Y-m-d');?>"></input>
                             </div>
                         </div>
 

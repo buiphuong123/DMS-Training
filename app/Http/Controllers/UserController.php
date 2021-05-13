@@ -77,4 +77,14 @@ class UserController extends Controller
             return redirect()->back()->with('error', 'Old password not matched');
         }
     }
+
+    public function manager(){
+        $user = Auth::user();
+        if($user->hasAnyRoles(['manager'])){
+            $users = User::where('permission_id', $user->permission_id)->get();
+            return view('user.manager')->with('users', $users);
+        }
+        return redirect()->back()->with('error', 'Not have access');  
+    }
+    
 }

@@ -23,6 +23,7 @@ class User extends Authenticatable
         'password',
         'description',
         'avatar',
+        'permission_id',
     ];
 
     /**
@@ -53,9 +54,9 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\Role');
     }
 
-    public function permissions() {
+    public function permission() {
 
-        return $this->belongsToMany('App\Models\Permissions', 'users_permissions','user_id', 'permission_id');
+        return $this->belongsTo(Permissions::class, 'permission_id');
             
      }
 

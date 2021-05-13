@@ -22,7 +22,7 @@ class UserTableSeeder extends Seeder
         $managerRole = Role::where('name','manager')->first();
         $userRole = Role::where('name','user')->first();
 
-        DB::table('users_permissions')->truncate();
+        DB::table('permissions')->truncate();
         $mp = Permissions::where('name', 'manager dd')->first();
         $md = Permissions::where('name', 'deputy')->first();
         $mdd = Permissions::where('name', 'deputy department')->first();
@@ -32,6 +32,7 @@ class UserTableSeeder extends Seeder
              'email' => 'admin@gmail.com',
              'password' => Hash::make('dddddddd'),
              'description' => 'admin',
+             'permission_id' => 0,
 
          ]);
          $manager = User::create([
@@ -39,20 +40,22 @@ class UserTableSeeder extends Seeder
             'email' => 'manager@gmail.com',
             'password' => Hash::make('dddddddd'),
             'description' => 'manager',
+            'permission_id' => 2
         ]);
         $user = User::create([
             'username' => 'user',
             'email' => 'user@gmail.com',
             'password' => Hash::make('dddddddd'),
             'description' => 'user',
+            'permission_id' => 2
         ]);
         $admin->roles()->attach($adminRole);
         $manager->roles()->attach($managerRole);
         $user->roles()->attach($userRole);
 
-        $admin->permissions()->attach($mp);
-        $manager->permissions()->attach($md);
-        $user->permissions()->attach($mdd);
+        $admin->permission()->associate($mp);
+        $manager->permission()->associate($md);
+        $user->permission()->associate($mdd);
 
         
     }
