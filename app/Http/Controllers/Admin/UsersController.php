@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Gate;
+
 class UsersController extends Controller
 {
     public function __construc()
@@ -68,8 +69,6 @@ class UsersController extends Controller
         if(Gate::denies('edit-users')){
             return redirect(route('admin.users.index'));
         }
-
-        
         $roles = Role::all();
         return view('admin.users.edit')->with([
             'user' => $user,
@@ -87,9 +86,7 @@ class UsersController extends Controller
     public function update(Request $request, User $user)
     {
         $user -> roles()->sync($request->roles);
-
         $request->session()->flash('success', $user->name.'update user success');
-
         return redirect()->route('admin.users.index');
     }
 

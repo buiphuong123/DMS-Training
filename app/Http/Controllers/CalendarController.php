@@ -11,18 +11,20 @@ class CalendarController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-        if($user->hasAnyRoles(['admin'])){
-            $sheets = TimeSheet::all();
+        $query = Timesheet::query();
+
+        if ($user->hasAnyRoles(['manager'])) {
+            $query->whereHas('user', function($query) {
+                $query->where('permission_id', \Auth::user()->permission_id);
+            });
         }
-        else if($user->hasAnyRoles(['manager'])){
-            $users = User::where('permission_id', $user->permission_id)->get()->pluck('id');
-            $timesheets = Timesheet::with('User:id');
-            $sheets = $timesheets->whereIn('user_id', $users)->get();
+        elseif ($user->hasAnyRoles(['user'])) {
+            $query->where('user_id', $user->id);
         }
-        else{
-            $sheets = TimeSheet::where('user_id', $user->id)->get();
-        }
-        return view('calendar.index')->with('sheets', $sheets);
+
+        $sheets = $query->get();
+        
+        return view('calendar.index', compact('sheets'));
     }
 
 }

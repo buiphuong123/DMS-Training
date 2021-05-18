@@ -18,14 +18,12 @@
           </tr>
           </thead>
           <tbody>
-          @foreach($users as $user)
-            @if ($user->hasAnyRoles(['user']))
+          @foreach ($users as $user)
                 <tr>
-                    <td>{{$loop->index}}</th>
-                    <td>{{$user->username}}</td>
-                    <td>{{$user->permission->name}}</td>
+                    <td>{{ $loop->index }}</th>
+                    <td>{{ $user->username }}</td>
+                    <td>{{ $user->permission->name }}</td>
                 </tr>
-            @endif
          @endforeach
             </tbody>
           </table>

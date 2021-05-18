@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset='utf-8' />
-<link rel="stylesheet" type="text/css" href="{{asset('asset/main.css')}}">
+<link rel="stylesheet" type="text/css" href="{{ asset('asset/main.css') }}">
 <script src="{{ asset('asset/main.js') }}"></script>
 <script>
 

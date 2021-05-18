@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\TimeSheet;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -25,9 +25,13 @@ class CreateSheetRequest extends FormRequest
     {
         return [
             'name' => 'required', 'string', 'max:255',
-            'hard'  => 'required', 'string', 'max:255',
             'plan' => 'required', 'string', 'max:255',
-            'date_create'   => 'required|date_format:Y-m-d',
+        ];
+    }
+    public function messages() {
+        return [
+            'name.required' => 'name is also required',
+            'plan.required' => 'plan is also required',
         ];
     }
 }

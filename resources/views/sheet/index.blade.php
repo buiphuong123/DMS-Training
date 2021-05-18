@@ -24,44 +24,39 @@
               <th scope="col">Date</th>
               <th scope="col">Task</th>
               <th scope="col">Action</th>
-              @if(Auth::user()->hasAnyRoles(['admin', 'manager']))
-              <th scope="col">User</th>
-              @endif
+              
           </tr>
           </thead>
           <tbody>
-          @foreach($sheets as $sheet)
+          @foreach ($sheets as $sheet)
             <tr>
-                  <td>{{$sheet->name}}</th>
-                  <td>{{$sheet->hard}}</td>
-                  <td>{{$sheet->plan}}</td>
-                  <td>{{$sheet->date_create}}</td>
+                  <td>{{ $sheet->name }}</th>
+                  <td>{{ $sheet->hard }}</td>
+                  <td>{{ $sheet->plan }}</td>
+                  <td>{{ $sheet->date_create }}</td>
                   <td>
-                      <a href="{{ route('sheet.task.create',$sheet->id) }}" class="btn btn-primary">Add Task</a>
+                      <a href="{{ route('sheet.task.create', $sheet->id) }}" class="btn btn-primary">Add Task</a>
                   </td>
                   <td>
                         <a href="{{ route('sheet.edit', $sheet->id) }}"><button type="submit" class="btn btn-primary">Edit</button></a>
                         <form action="{{ route('sheet.destroy', $sheet->id) }}" class="float-left" method= "POST">
                           @csrf
-                          {{method_field('DELETE')}}
+                          {{ method_field('DELETE') }}
                             <button type="submit" class="btn btn-warning">Delete</button>
                         </form>
                         <a href="{{ route('sheet.task.index', $sheet->id) }}" class="btn btn-primary">Show Task</a>
                   </td>
-                  @if(Auth::user()->hasAnyRoles(['admin']))
-                  <td>Create by {{$sheet->user->username}} at {{$sheet->user->created_at}}</td>
-                  @endif
                  
-                  
             </tr>
             @endforeach
             </tbody>
           </table>
           </div>
-          {{ $sheets->links() }}
-          @if(Auth::user()->hasAnyRoles(['admin']))
-            <a href="{{ route('export') }}" class="btn btn-primary">Export File</a>
-          @endif
- @endif
+  @endif
+        <div>
+            @if (Auth::user()->hasAnyRoles(['admin']))
+              <a href="{{ route('export') }}" class="btn btn-primary">Export File</a>
+            @endif
+        </div>
 
 @endsection

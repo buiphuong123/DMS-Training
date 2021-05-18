@@ -2,7 +2,7 @@
 
 @section('content')
 
-<h1 style="text-align: center;color: red">{{$sheets->name}}</h1>
+<h1 style="text-align: center;color: red">{{ $sheets->name }}</h1>
 @if ($tasks->isEmpty())
     <p class="alert alert-sucess"> not task</p>
 @else

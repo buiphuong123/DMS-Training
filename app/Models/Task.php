@@ -22,7 +22,7 @@ class Task extends Model
     protected $table = 'tasks';
     public $primaryKey = 'id';
     public $timestamps = true;
-    public function timesheet(){
+    public function timesheet() {
         return $this->belongsToMany('App\Models\timesheet', 'task_timesheet', 'tasks_id', 'sheet_id');
     }
 }

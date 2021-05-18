@@ -21,7 +21,7 @@ class UserTableSeeder extends Seeder
         $adminRole = Role::where('name','admin')->first();
         $managerRole = Role::where('name','manager')->first();
         $userRole = Role::where('name','user')->first();
-
+        $kakaRole = Role::where('name','user1')->first();
         DB::table('permissions')->truncate();
         $mp = Permissions::where('name', 'manager dd')->first();
         $md = Permissions::where('name', 'deputy')->first();
@@ -49,9 +49,19 @@ class UserTableSeeder extends Seeder
             'description' => 'user',
             'permission_id' => 2
         ]);
+
+        $user1 = User::create([
+            'username' => 'kaka',
+            'email' => 'kaka@gmail.com',
+            'password' => Hash::make('dddddddd'),
+            'description' => 'kaka',
+            'permission_id' => 2
+        ]);
+
         $admin->roles()->attach($adminRole);
         $manager->roles()->attach($managerRole);
         $user->roles()->attach($userRole);
+        $user1->roles()->attach($kakaRole);
 
         $admin->permission()->associate($mp);
         $manager->permission()->associate($md);

@@ -18,29 +18,25 @@ class ReportController extends Controller
         $year = Carbon::parse($month)->year;
         $today = Carbon::now()->format('Y-m-d');
         $user = Auth::user();
-        if ($user->hasAnyRoles(['admin'])){
-            $users = User::all();
-            $ts_count = [];
-            foreach($users as $user){
-                $count_timesheet = $user->timesheet()->whereMonth('created_at', $months)->whereYear('created_at', '=', $year)->where('user_id', $user->id)->get();
-                $count_timesheet_late = $user->timesheet()->whereMonth('created_at', $months)->whereYear('created_at', '=', $year)->whereRaw("HOUR(`created_at`) >= 8")->where('user_id', $user->id)->get();
+        if ($user->hasAnyRoles(['manager', 'admin'])) {
+            if ($user->hasAnyRoles(['manager'])) {
+                $users = User::where('permission_id', $user->permission_id)->get();
             }
-            return view('report.index', compact('user', 'count_timesheet', 'count_timesheet_late', 'month'));
-        }
-        else if($user->hasAnyRoles(['manager'])){
-            $users = User::where('permission_id', $user->permission_id)->get();
+            else {
+                $users = User::all();
+            }
             foreach($users as $user){
                 $count_timesheet[$user->id] = $user->timesheet()->whereMonth('created_at', $months)->whereYear('created_at', '=', $year)->where('user_id', $user->id)->get();
                 $count_timesheet_late[$user->id] = $user->timesheet()->whereMonth('created_at', $months)->whereYear('created_at', '=', $year)->whereRaw("HOUR(`created_at`) >= 8")->where('user_id', $user->id)->get();
             }
             return view('report.index', compact('users', 'count_timesheet', 'count_timesheet_late', 'month'));
         }
-        else{
+        else {
             $count_timesheet = $user->timesheet()->whereMonth('created_at', $months)->whereYear('created_at', '=', $year)->where('user_id', $user->id)->get();
             $count_timesheet_late = $user->timesheet()->whereMonth('created_at', $months)->whereYear('created_at', '=', $year)->whereRaw("HOUR(`created_at`) >= 8")->where('user_id', $user->id)->get();
             return view('report.index', compact('user', 'count_timesheet', 'count_timesheet_late', 'month'));
         }
-        
+       
     }
 
 }

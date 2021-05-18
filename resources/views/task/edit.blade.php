@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Edit task {{$task->task_id}}</div>
+                <div class="card-header">Edit task {{ $task->task_id }}</div>
                 <div class="card-body">
                     <form method="POST" action="{{ route('sheet.task.update', [$sheet->id, $task->id]) }}">
                         @csrf

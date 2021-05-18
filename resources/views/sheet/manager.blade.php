@@ -12,9 +12,9 @@
   </div>
 </div>
 
-  @if ($sheets->isEmpty())
+@if ($sheets->isEmpty())
     <p class="alert alert-sucess"> not TimeSheet</p>
-  @else
+@else
       <table class="table">  
           <thead>
           <tr>
@@ -29,7 +29,7 @@
           </tr>
           </thead>
           <tbody>
-          @foreach($sheets as $sheet)
+          @foreach ($sheets as $sheet)
             <tr>
                   <td>{{ $sheet->user->username }}</td>
                   <td>{{ $sheet->name }}</td>
@@ -41,14 +41,14 @@
                         <a href="{{ route('sheet.edit', $sheet->id) }}"><button type="submit" class="btn btn-primary">Edit</button></a>
                         <form action="{{ route('sheet.destroy', $sheet->id) }}" class="float-left" method= "POST">
                           @csrf
-                          {{method_field('DELETE')}}
+                          {{ method_field('DELETE') }}
                             <button type="submit" class="btn btn-warning">Delete</button>
                         </form>
                         <a href="{{ route('sheet.task.index', $sheet->id) }}" class="btn btn-primary">Show Task</a>
                   </td>
                  
             </tr>
-            @endforeach
+          @endforeach
             </tbody>
           </table>
           </div>

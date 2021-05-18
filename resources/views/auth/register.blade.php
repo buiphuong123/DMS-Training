@@ -10,17 +10,16 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('user.register_store') }}" autocomplete="off" enctype="multipart/form-data">
                     {{ csrf_field() }}
+                        @if (count($errors) > 0)
+                            @foreach ($errors->all() as $error)
+                                <p class="alert alert-danger">{{ $error}}</p>
+                            @endforeach
+                        @endif
                         <div class="form-group row">
                             <label for="username" class="col-md-4 col-form-label text-md-right">{{ __('username') }}</label>
 
                             <div class="col-md-6">
-                                <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username"  required autocomplete="username" autofocus>
-
-                                @error('username')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <input id="username" type="text" class="form-control" name="username">
                             </div>  
                         </div>
 
@@ -28,13 +27,7 @@
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" >
                             </div>
                         </div>
 
@@ -42,13 +35,8 @@
                             <label for="avatar" class="col-md-4 col-form-label text-md-right">{{ __('avatar') }}</label>
 
                             <div class="col-md-6">
-                                <input id="avatar" type="file" class="form-control @error('avatar') is-invalid @enderror" name="avatar">
+                                <input id="avatar" type="file" class="form-control" name="avatar">
 
-                                @error('avatar')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
                             </div>
                         </div>
 
@@ -56,13 +44,7 @@
                             <label for="description" class="col-md-4 col-form-label text-md-right">{{ __('description') }}</label>
 
                             <div class="col-md-6">
-                                <textarea type="text" class="form-control @error('description') is-invalid @enderror" name="description" ></textarea>
-
-                                @error('description')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <textarea type="text" class="form-control" name="description" ></textarea>
                             </div>
                         </div>
 
@@ -71,13 +53,7 @@
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <input id="password" type="password" class="form-control" name="password">
                             </div>
                         </div>
 
@@ -85,7 +61,7 @@
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation">
                             </div>
                         </div>
 

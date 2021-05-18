@@ -10,17 +10,16 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('sheet.store') }}">
                         @csrf
+                        @if (count($errors) > 0)
+                                @foreach ($errors->all() as $error)
+                                    <p class="alert alert-danger">{{ $error}}</p>
+                                @endforeach
+                        @endif
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('TimeSheet') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name"  required autocomplete="name" autofocus>
-
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <input id="name" type="text" class="form-control" name="name">
                             </div>  
                         </div>
 
@@ -28,13 +27,7 @@
                             <label for="hard" class="col-md-4 col-form-label text-md-right">{{ __('Hard') }}</label>
 
                             <div class="col-md-6">
-                                <textarea rol="5" col="5" id="hard" type="text" class="form-control @error('hard') is-invalid @enderror" name="hard" required autocomplete="hard"></textarea>
-
-                                @error('hard')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <textarea rol="5" col="5" id="hard" type="text" class="form-control" name="hard"></textarea>
                             </div>
                         </div>
 
@@ -42,13 +35,7 @@
                             <label for="plan" class="col-md-4 col-form-label text-md-right">{{ __('Plan') }}</label>
 
                             <div class="col-md-6">
-                                <textarea rol="5" col="5" id="plan" type="text" class="form-control @error('plan') is-invalid @enderror" name="plan" required autocomplete="plan"></textarea>
-
-                                @error('plan')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <textarea rol="5" col="5" id="plan" type="text" class="form-control" name="plan"></textarea>
                             </div>
                         </div>
 

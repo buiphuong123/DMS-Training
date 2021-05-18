@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\TimeSheet;
 use App\Models\Permissions;
+
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;

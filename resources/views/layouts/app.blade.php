@@ -96,7 +96,7 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                <img src="{{asset(Auth::user()->avatar)}}" alt="" style="height: 40px ;width: 40px;border-radius: 20px;"/>
+                                <img src="{{ asset(Auth::user()->avatar) }}" alt="" style="height: 40px ;width: 40px;border-radius: 20px;"/>
                                     {{ Auth::user()->username }}
                                 </a>
                                 

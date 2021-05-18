@@ -37,8 +37,8 @@
                                         <th>Số lần đăng ký trong tháng</th>
                                         <th>Số lần chậm đăng ký trong tháng</th>
                                         </thead>
-                                        @if(Auth::user()->hasAnyRoles(['admin', 'manager']))
-                                            @foreach($users as $user)
+                                        @if (Auth::user()->hasAnyRoles(['admin', 'manager']))
+                                            @foreach ($users as $user)
                                             <tbody>
                                                 <tr>
                                                     <td>{{ $loop->index }}</td>
@@ -50,15 +50,15 @@
                                             </tbody>
                                             @endforeach
                                         @endif
-                                        @if(Auth::user()->hasAnyRoles(['user']))
-                                        @if ( $count_timesheet->count() == 0 )
+                                        @if (Auth::user()->hasAnyRoles(['user']))
+                                        @if ($count_timesheet->count() == 0)
                                             <p class="alert alert-sucess"> This month not TimeSheet</p>
                                         @else
                                         <tbody>
                                             <tr>
-                                                <td>1</td>
+                                                <td> 1 </td>
                                                 <td>{{ $month }}</td>
-                                                <td>{{($user->username)}}</td>
+                                                <td>{{ $user->username }}</td>
                                                 <td>{{ $count_timesheet->count() }}</td>
                                                 <td>{{ $count_timesheet_late->count() }}</td>
                                             </tr>

@@ -20,16 +20,14 @@ class TimeSheet extends Model
         'hard',
         'plan',
         'date_create',
-       
     ];
     protected $table = 'time_sheets';
     public $primaryKey = 'id';
     public $timestamps = true;
-    public function user(){
+    public function user() {
         return $this->belongsTo(User::class);
     }
-    public function task()
-    {
+    public function task() {
         return $this->belongsToMany('App\Models\Task', 'task_timesheet', 'sheet_id', 'tasks_id');
     }
     
