@@ -8,7 +8,7 @@
 <meta charset='utf-8' />
 <link rel="stylesheet" type="text/css" href="{{ asset('asset/main.css') }}">
 <script src="{{ asset('asset/main.js') }}"></script>
-<script>
+<script> 
 
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');

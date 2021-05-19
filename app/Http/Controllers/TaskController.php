@@ -7,7 +7,8 @@ use App\Models\Task;
 use App\Models\User;
 use App\Models\TimeSheet;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\CreateTaskRequest;
+use App\Http\Requests\Task\CreateTaskRequest;
+use App\Http\Requests\Task\UpdateTaskRequest;
 
 class TaskController extends Controller
 {
@@ -18,8 +19,8 @@ class TaskController extends Controller
      */
     public function index(TimeSheet $sheet)
     {
-       $tasks = $sheet->task; 
-       return view('task.index')->with('tasks', $tasks)->with('sheets', $sheet);
+        $tasks = $sheet->task; 
+        return view('task.index')->with('tasks', $tasks)->with('sheets', $sheet);
     }
 
     /**
@@ -68,7 +69,7 @@ class TaskController extends Controller
      */
     public function edit(TimeSheet $sheet, Task $task)
     {
-        return view('task.edit')->with('task', $task)->with('sheet', $sheet);
+        return view('task.edit', compact('task', 'sheet'));
     }
 
     /**
@@ -78,7 +79,7 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TimeSheet $sheet, Task $task)
+    public function update(UpdateTaskRequest $request, TimeSheet $sheet, Task $task)
     {
         $this->validate($request, [
             'task_id' => 'required', 'string', 'max:40',

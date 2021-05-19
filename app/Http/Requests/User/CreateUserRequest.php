@@ -4,7 +4,8 @@ namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\User;
-class UserRequest extends FormRequest
+
+class CreateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,21 +25,19 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' =>  'required|string|max:255|unique:users|alpha',
+            'username' =>  'required', 'string', 'max:255', 'unique:users',
             'email' => 'required', 'string', 'email', 'max:255', 'unique:users',
-            'password' => 'required', 'string', 'min:3', 'confirmed',
-            'avatar'  => 'sometimes', 'image', 'mimes:jpg,jpeg,bmp,svg,png', 'max:5000',
-            'description' => 'string', 'max: 255'
+            'password' => 'required', 'string', 'min:8',
         ];
     }
 
     public function messages() {
         return [
             'username.required' => 'username is also required',
-            'username.email' => 'email is also required',
-            'password.required' => 'password is also required',
-            'min' => ':attribute not less than :min ky tu',
-            'max' => ':attribute not longer than :min ky tu',
+            'email.required' => 'username is also required',
+            'password.required' => 'username is also required',
+            'password.min' => 'password not less than 8 ky tu',
+            'email.max' => 'email not longer than 255 ky tu',
         ];
     }
 }

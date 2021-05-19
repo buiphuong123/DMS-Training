@@ -14,7 +14,7 @@
                             <label for="task_id" class="col-md-4 col-form-label text-md-right">{{ __('Task_id') }}</label>
 
                             <div class="col-md-6">
-                                <input id="task_id" type="text" class="form-control @error('task_id') is-invalid @enderror" name="task_id"  required autocomplete="task_id" autofocus value="{{$task->task_id}}">
+                                <input id="task_id" type="text" class="form-control @error('task_id') is-invalid @enderror" name="task_id"  required autocomplete="task_id" autofocus value="{{ $task->task_id }}">
 
                                 @error('task_id')
                                     <span class="invalid-feedback" role="alert">
@@ -28,7 +28,7 @@
                             <label for="infomation" class="col-md-4 col-form-label text-md-right">{{ __('infomation') }}</label>
 
                             <div class="col-md-6">
-                                <textarea rol="5" col="5" id="infomation" type="text" class="form-control @error('infomation') is-invalid @enderror" name="infomation" required autocomplete="infomation">{{$task->infomation}}</textarea>
+                                <textarea rol="5" col="5" id="infomation" type="text" class="form-control @error('infomation') is-invalid @enderror" name="infomation" required autocomplete="infomation">{{ $task->infomation }}</textarea>
 
                                 @error('infomation')
                                     <span class="invalid-feedback" role="alert">
@@ -42,7 +42,7 @@
                             <label for="time" class="col-md-4 col-form-label text-md-right">{{ __('Time') }}</label>
 
                             <div class="col-md-6">
-                                <textarea rol="5" col="5" id="time" type="text" class="form-control @error('time') is-invalid @enderror" name="time" required autocomplete="time">{{$task->time}}</textarea>
+                                <textarea rol="5" col="5" id="time" type="text" class="form-control @error('time') is-invalid @enderror" name="time" required autocomplete="time">{{ $task->time }}</textarea>
 
                                 @error('time')
                                     <span class="invalid-feedback" role="alert">

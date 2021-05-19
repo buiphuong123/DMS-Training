@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Task;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\User;
 
-class CreateTaskRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,15 +25,14 @@ class CreateTaskRequest extends FormRequest
     public function rules()
     {
         return [
-            'infomation' => 'required',
-            'time' => 'required',
+            'password' =>  'required','min=8',
         ];
     }
 
     public function messages() {
         return [
-            'infomation.required' => 'infomation is also required',
-            'time.required' => 'time is also required',
+            'password.required' => 'username is also required',
+            'password.min' => 'password not less than 8 ky tu',
         ];
     }
 }

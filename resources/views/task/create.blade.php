@@ -9,17 +9,16 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('sheet.task.store', $sheets->id) }}">
                         @csrf
+                        @if (count($errors) > 0)
+                                @foreach ($errors->all() as $error)
+                                    <p class="alert alert-danger">{{ $error}}</p>
+                                @endforeach
+                        @endif
                         <div class="form-group row">
                             <label for="task_id" class="col-md-4 col-form-label text-md-right">{{ __('Task_id') }}</label>
 
                             <div class="col-md-6">
-                                <input id="task_id" type="text" class="form-control @error('task_id') is-invalid @enderror" name="task_id" value="{{ old('task_id', 'N/A') }}" >
-
-                                @error('task_id')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <input id="task_id" type="text" class="form-control" name="task_id" value="{{ old('task_id', 'N/A') }}" >
                             </div>  
                         </div>
 
@@ -27,13 +26,7 @@
                             <label for="infomation" class="col-md-4 col-form-label text-md-right">{{ __('infomation') }}</label>
 
                             <div class="col-md-6">
-                                <textarea rol="5" col="5" id="infomation" class="form-control @error('infomation') is-invalid @enderror" name="infomation"></textarea>
-
-                                @error('infomation')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <textarea rol="5" col="5" id="infomation" class="form-control" name="infomation"></textarea>
                             </div>
                         </div>
 
@@ -41,13 +34,7 @@
                             <label for="time" class="col-md-4 col-form-label text-md-right">{{ __('Time') }}</label>
 
                             <div class="col-md-6">
-                                <textarea rol="5" col="5" id="time" type="text" class="form-control @error('time') is-invalid @enderror" name="time" required autocomplete="time"></textarea>
-
-                                @error('time')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <textarea rol="5" col="5" id="time" type="text" class="form-control" name="time"></textarea>
                             </div>
                         </div>
 

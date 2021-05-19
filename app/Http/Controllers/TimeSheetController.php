@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
 use App\Http\Requests\TimeSheet\CreateSheetRequest;
+use App\Http\Requests\TimeSheet\UpdateSheetRequest;
 
 class TimeSheetController extends Controller
 {
@@ -100,7 +101,7 @@ class TimeSheetController extends Controller
      */
     public function show(TimeSheet $sheet)
     {
-        return view('sheet.show')->with('sheet', $sheet);
+        return view('sheet.show', compact('sheet'));
     }
 
     /**
@@ -111,7 +112,7 @@ class TimeSheetController extends Controller
      */
     public function edit(TimeSheet $sheet)
     {
-        return view('sheet.edit')->with('sheets', $sheet);
+        return view('sheet.edit', compact('sheets'));
     }
 
     /**
@@ -121,14 +122,8 @@ class TimeSheetController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TimeSheet $sheet)
+    public function update(UpdateSheetRequest $request, TimeSheet $sheet)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'hard'  => 'required',
-            'plan' => 'required',
-            'date_create'   => 'required|date_format:Y-m-d',
-        ]);
         $sheet->update([
             'name' => $request->name,
             'hard' => $request->hard,

@@ -11,7 +11,7 @@ td, th {
   text-align: left;
   padding: 8px;
 }
-</style>
+</style>    
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -34,18 +34,18 @@ td, th {
 
                         @foreach($users as $user)
                         <tr>
-                            <td>{{$user->id}}</td>
-                            <td>{{$user->username}}</td>
-                            <td>{{$user->email}}</td>
-                            <td>{{implode(', ', $user->roles()->get()->pluck('name')->toArray())}}</td>
+                            <td>{{ $user->id }}</td>
+                            <td>{{ $user->username }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ implode(', ', $user->roles()->get()->pluck('name')->toArray()) }}</td>
                             <td>
                                 <!-- @can('edit-users') -->
                                 <a href="{{route('admin.users.edit',$user->id)}}"> <button type="button" class="btn btn-primary float-left">Edit</button></a>
-                                <!-- @endcan -->
-                                <!-- @can('delete-users') -->
+                                <!-- @endcan
+                                @can('delete-users') -->
                                 <form action="{{route('admin.users.destroy', $user)}}" class="float-left" method= "POST">
                                     @csrf
-                                    {{method_field('DELETE')}}
+                                    {{ method_field('DELETE') }}
                                     <button type="submit" class="btn btn-warning">Delete</button>
                                 </form>
                                 <!-- @endcan -->

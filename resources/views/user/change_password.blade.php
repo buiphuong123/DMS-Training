@@ -10,39 +10,17 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('user.update_password') }}">
                         @csrf
-                        @if(session('error'))
-                            <div class="alert" role="alert">
-                                 {{session('error')}}
-                             </div>
+                        @if (count($errors) > 0)
+                                @foreach ($errors->all() as $error)
+                                    <p class="alert alert-danger">{{ $error}}</p>
+                                @endforeach
                         @endif
-                        @if(session('success'))
-                            <div class="alert" role="alert">
-                                 {{session('success')}}
-                             </div>
-                        @endif
-
-                        @if(session('giatri'))
-                            <div class="alert" role="alert">
-                                 {{session('giatri')}}
-                             </div>
-                        @endif
-                        @if(session('passcu'))
-                            <div class="alert" role="alert">
-                                 {{session('passcu')}}
-                             </div>
-                        @endif
-
                        
                         <div class="form-group row">
                             <label for="old_password" class="col-md-4 col-form-label text-md-right">{{ __('Old Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="old_password" name="old_password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-                                @error('old_password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <input id="old_password" name="old_password" type="password" class="form-control" name="password">
                             </div>
                         </div>
 
@@ -50,27 +28,10 @@
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('New Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="new_password" type="password" class="form-control" name="new_password" required autocomplete="new-password">
-                                @error('new_password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <input id="new_password" type="password" class="form-control" name="new_password">
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="confirm_password" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="confirm_password" type="password" class="form-control" name="confirm_password" required >
-                                @error('confirm_password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">

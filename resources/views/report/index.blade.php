@@ -49,22 +49,22 @@
                                                 </tr>
                                             </tbody>
                                             @endforeach
+                                        
+                                        @else (Auth::user()->hasAnyRoles(['user']))
+                                            @if ($count_timesheet->count() == 0)
+                                                <p class="alert alert-sucess"> This month not TimeSheet</p>
+                                            @else
+                                            <tbody>
+                                                <tr>
+                                                    <td> 1 </td>
+                                                    <td>{{ $month }}</td>
+                                                    <td>{{ $user->username }}</td>
+                                                    <td>{{ $count_timesheet->count() }}</td>
+                                                    <td>{{ $count_timesheet_late->count() }}</td>
+                                                </tr>
+                                            </tbody>
+                                            @endif
                                         @endif
-                                        @if (Auth::user()->hasAnyRoles(['user']))
-                                        @if ($count_timesheet->count() == 0)
-                                            <p class="alert alert-sucess"> This month not TimeSheet</p>
-                                        @else
-                                        <tbody>
-                                            <tr>
-                                                <td> 1 </td>
-                                                <td>{{ $month }}</td>
-                                                <td>{{ $user->username }}</td>
-                                                <td>{{ $count_timesheet->count() }}</td>
-                                                <td>{{ $count_timesheet_late->count() }}</td>
-                                            </tr>
-                                        </tbody>
-                                        @endif
-                                    @endif
                                     </table>
                                     
                                 </div>

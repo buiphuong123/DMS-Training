@@ -7,9 +7,18 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Mail;
+use App\Http\Requests\User\UpdatePasswordRequest;
+use App\Services\Interfaces\UserServiceInterface;
 
 class UserController extends Controller
 {
+    protected $userService;
+                                    
+    public function __construct(UserServiceInterface $userService)
+    {
+        $this->userService = $userService;
+    }
+
     public function send_mail() {
         $to_name = "bui phuong";
         $to_email = "buithiphuong07031999@gmail.com";
@@ -36,33 +45,9 @@ class UserController extends Controller
         }
     }
     public function update(Request $request) {
-        $user = User::find(Auth::user()->id);
-        if ($user) {
-            $validate = $request->validate([
-                'avatar'  => ['sometimes', 'image', 'mimes:jpg,jpeg,bmp,svg,png', 'max:5000'],
-            ]);
-            $user->description = $request['description'];
-
-            $get_image = $request->file('avatar');
-        if ($get_image) {
-            $get_name_image = $get_image->getClientOriginalName();
-            $name_image = current(explode('.', $get_name_image));
-            $new_image = 'public/images/' . time() . '.' . $get_image->getClientOriginalExtension();
-        
-            $get_image->move('public/images/',$new_image);
-            $user->avatar = $new_image;
-        }
-            $user->save();
-
-            $request->session()->flash('mess', 'update success');
-            return redirect()->back();
-        }
-        else {
-            return redirect()->back();
-        }
-        
         $request->session()->flash('mess', 'update success');
-            return redirect()->back();
+        $this->userService->updateUser($request);  
+        return redirect()->back();
     }
 
     public function change_password() {
@@ -87,7 +72,7 @@ class UserController extends Controller
         $user = Auth::user();
         if ($user->hasAnyRoles(['manager'])) {
             $users = User::where('permission_id', $user->permission_id)->get();
-            return view('user.manager')->with('users', $users);
+            return view('admin.users.index')->with('users', $users);
         }
         if ($user->hasAnyRoles(['admin'])) {
             return redirect()->route('admin.users.index');
