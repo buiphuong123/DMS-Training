@@ -26,9 +26,13 @@ class RegisterController extends Controller
     }
    public function store(CreateUserRequest $request)
    {
-        $this->userService->createUser($request);   
-        $request->session()->flash('successTS','register success');
-        return redirect()->route('sheet.index');
+        if ($this->userService->createUser($request)) {
+            $request->session()->flash('successTS','register success');
+        }
+        else {
+            $request->session()->flash('error','register error');
+        }
+        return redirect()->route('login');
    }
 }
 

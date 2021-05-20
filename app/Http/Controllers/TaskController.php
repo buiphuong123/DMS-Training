@@ -9,9 +9,17 @@ use App\Models\TimeSheet;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Task\CreateTaskRequest;
 use App\Http\Requests\Task\UpdateTaskRequest;
+use App\Services\Interfaces\TaskServiceInterface;
 
 class TaskController extends Controller
 {
+    protected $taskService;
+                                    
+    public function __construct(TaskServiceInterface $taskService)
+    {
+        $this->taskService = $taskService;
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +28,7 @@ class TaskController extends Controller
     public function index(TimeSheet $sheet)
     {
         $tasks = $sheet->task; 
-        return view('task.index')->with('tasks', $tasks)->with('sheets', $sheet);
+        return view('task.index', ['tasks' => $tasks, 'sheets' => $sheet]);
     }
 
     /**
@@ -30,7 +38,7 @@ class TaskController extends Controller
      */
     public function create(TimeSheet $sheet)
     { 
-        return view('task.create')->with('sheets', $sheet);
+        return view('task.create', ['sheets' => $sheet]);
     }
 
     /**
@@ -41,12 +49,13 @@ class TaskController extends Controller
      */
     public function store(TimeSheet $sheet, CreateTaskRequest $request)
     {
-        $sheet->task()->create([
-            'task_id' => $request->input('task_id'),
-            'infomation' => $request->input('infomation'),
-            'time' => $request->input('time'),
-        ]);
-        $request->session()->flash('success','create task success');
+        if ($this->taskService->createTask($sheet, $request)) {
+            $request->session()->flash('success','create task success');
+        }
+        else {
+            $request->session()->flash('error','create task error');
+        }
+        
         return redirect()->route('sheet.task.index', $sheet);
     }
 
@@ -81,17 +90,12 @@ class TaskController extends Controller
      */
     public function update(UpdateTaskRequest $request, TimeSheet $sheet, Task $task)
     {
-        $this->validate($request, [
-            'task_id' => 'required', 'string', 'max:40',
-            'infomation' => 'required', 'string', 'max:255',
-            'time' => 'required',
-        ]);
-        $task->update([
-            'task_id' => $request->task_id,
-            'infomation' => $request->infomation,
-            'time' => $request->time, 
-        ]);
-        $request->session()->flash('successTS','update task success');
+        if ($this->taskService->updateTask($request, $sheet, $task)) {
+            $request->session()->flash('successTS','update task success');
+        }
+        else {
+            $request->session()->flash('error','update task not success');
+        }
         return redirect()->route('sheet.task.index', $sheet);
     }
 
@@ -103,8 +107,13 @@ class TaskController extends Controller
      */
     public function destroy(TimeSheet $sheet, Task $task, Request $request)
     {
-        $task->delete();
-        $request->session()->flash('success', 'delete Task success');
+        if ($this->taskService->deleteTask($sheet, $task, $request)) {
+            $request->session()->flash('success', 'delete Task success');
+        }
+        else {
+            $request->session()->flash('error', 'delete Task  not success');
+        }
+        
         return redirect()->route('sheet.task.index', $sheet);
     }
 }

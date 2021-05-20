@@ -15,7 +15,11 @@ class AppServiceProvider extends ServiceProvider
      */
 
     protected $services = [
-        Interfaces\UserServiceInterface::class => Production\UserService::class
+        Interfaces\UserServiceInterface::class => Production\UserService::class,
+        Interfaces\TimeSheetServiceInterface::class => Production\TimeSheetService::class,
+        Interfaces\TaskServiceInterface::class => Production\TaskService::class,
+        Interfaces\FileUploadServiceInterface::class => Production\FileUploadService::class,
+
     ];
 
     public function register()

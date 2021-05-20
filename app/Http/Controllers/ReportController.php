@@ -36,6 +36,7 @@ class ReportController extends Controller
             $count_timesheet_late = $user->timesheet()->whereMonth('created_at', $months)->whereYear('created_at', '=', $year)->whereRaw("HOUR(`created_at`) >= 8")->where('user_id', $user->id)->get();
             return view('report.index', compact('user', 'count_timesheet', 'count_timesheet_late', 'month'));
         }
+        
        
     }
 

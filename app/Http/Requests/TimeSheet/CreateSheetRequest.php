@@ -3,10 +3,11 @@
 namespace App\Http\Requests\TimeSheet;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\DateSheet;
 
 class CreateSheetRequest extends FormRequest
 {
-    /**
+    /**sr
      * Determine if the user is authorized to make this request.
      *
      * @return bool
@@ -26,6 +27,7 @@ class CreateSheetRequest extends FormRequest
         return [
             'name' => 'required', 'string', 'max:255',
             'plan' => 'required', 'string', 'max:255',
+            'date_create' => ['required', new DateSheet()],
         ];
     }
     public function messages() {
@@ -35,3 +37,5 @@ class CreateSheetRequest extends FormRequest
         ];
     }
 }
+
+

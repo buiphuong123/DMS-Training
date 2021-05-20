@@ -7,12 +7,15 @@ use App\Models\User;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Gate;
+use App\Services\Interfaces\UserServiceInterface;
 
 class UsersController extends Controller
 {
-    public function __construc()
+    protected $userService;
+                                    
+    public function __construct(UserServiceInterface $userService)
     {
-        $this->middleware('auth');
+        $this->userService = $userService;
     }
     /**
      * Display a listing of the resource.
@@ -21,7 +24,6 @@ class UsersController extends Controller
      */
     public function index()
     {
-        //
         $users = User::all();
         return view('admin.users.index', compact('users'));
     }
@@ -85,7 +87,7 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $user -> roles()->sync($request->roles);
+        $user->roles()->sync($request->roles);
         $request->session()->flash('success', $user->name.'update user success');
         return redirect()->route('admin.users.index');
     }
@@ -96,13 +98,14 @@ class UsersController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(User $user, Request $request)
     {
-        if(Gate::denies('delete-users')){
-            return redirect(route('admin.users.index'));
+        if ($this->userService->deleteUser($user)) {
+            $request->session()->flash('success','delete User success');
         }
-        $user->roles()->detach();
-        $user->delete();
+        else {
+            $request->session()->flash('error','delete User error');
+        }
         return redirect()->route('admin.users.index');
     }
 }

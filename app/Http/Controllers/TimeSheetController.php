@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\TimeSheet;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -10,18 +11,17 @@ use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
 use App\Http\Requests\TimeSheet\CreateSheetRequest;
 use App\Http\Requests\TimeSheet\UpdateSheetRequest;
+use App\Services\Interfaces\TimeSheetServiceInterface;
 
 class TimeSheetController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    protected $TimeSheetService;
+                                    
+    public function __construct(TimeSheetServiceInterface $TimeSheetService)
     {
-        $this->middleware('auth');
+        $this->TimeSheetService = $TimeSheetService;
     }
+    
 
     /**
      * Display a listing of the resource.
@@ -73,24 +73,14 @@ class TimeSheetController extends Controller
      */
     public function store(CreateSheetRequest $request)
     {
-        $user = Auth::user();
-        $today = Carbon::now()->format('Y-m-d');
-        $dateinput = $request->input('date_create');
-        $countDay = Timesheet::where('user_id', $user->id)->whereDate('date_create', $dateinput)->get();
-        if ($countDay->count() >= 1) {
-            $request->session()->flash('error','timesheet was created in date ');
-            return redirect()->route('sheet.index');
+        if($this->TimeSheetService->createTimeSheet($request)) {
+            $request->session()->flash('successTS','create TimeSheet success');
         }
         else {
-            Auth::user()->timesheet()->create([
-                'name' => $request->input('name'),
-                'hard' => $request->input('hard'),
-                'plan' => $request->input('plan'),
-                'date_create' => $dateinput,
-            ]);
-            $request->session()->flash('successTS','create TimeSheet success');
-            return redirect()->route('sheet.index');
+            $request->session()->flash('error','create TimeSheet error');
         }
+        return redirect()->route('sheet.index');
+        
     }
 
     /**
@@ -112,7 +102,7 @@ class TimeSheetController extends Controller
      */
     public function edit(TimeSheet $sheet)
     {
-        return view('sheet.edit', compact('sheets'));
+        return view('sheet.edit', ['sheets' => $sheet]);
     }
 
     /**
@@ -124,13 +114,13 @@ class TimeSheetController extends Controller
      */
     public function update(UpdateSheetRequest $request, TimeSheet $sheet)
     {
-        $sheet->update([
-            'name' => $request->name,
-            'hard' => $request->hard,
-            'plan' => $request->plan,
-            'date_create' => $request->date_create,
-        ]);
-        $request->session()->flash('successTS','update TimeSheet success');
+        if($this->TimeSheetService->updateTimeSheet($request, $sheet)) {
+            $request->session()->flash('successTS','update TimeSheet success');
+        }
+        else {
+            $request->session()->flash('error','update TimeSheet not success');
+        }
+        
         return redirect()->route('sheet.index');
     }
 
@@ -142,8 +132,12 @@ class TimeSheetController extends Controller
      * */
     public function destroy(TimeSheet $sheet, Request $request)
     {
-        $sheet->delete();
-        $request->session()->flash('success','delete TimeSheet success');
+        if ($this->TimeSheetService->deleteTimeSheet($sheet, $request)) {
+            $request->session()->flash('success','delete TimeSheet success');
+        }
+        else {
+            $request->session()->flash('error','Cannot delete TimeSheet');
+        }
         return redirect()->route('sheet.index');
     }
 
