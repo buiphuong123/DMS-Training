@@ -31,28 +31,9 @@ class TimeSheetController extends Controller
 
     public function index(Request $request)
     {
-        $user = Auth::user();
-        $query = TimeSheet::query();
-
-        if ($user->hasAnyRoles(['admin'])) {
-            $sheets = $query->get();
-            return view('sheet.index', compact('sheets'));
-        }
-        else if ($user->hasAnyRoles(['manager'])) {
-            $query->whereHas('user', function($query) {
-            $query->where('permission_id', Auth::user()->permission_id);
-        });
-            $sheets = $query->get();
-
-            return view('sheet.manager', compact('sheets'));
-        }
-        else {
-            $query->where('user_id', $user->id);
-            $sheets = $query->get();
-
-            return view('sheet.index', compact('sheets'));
-        }
-       
+       $sheets = $this->TimeSheetService->getList($request->except('_token'));
+       $request->flashExcept('_token');
+       return view('sheet.index', compact('sheets'));
     }
 
     /**
@@ -73,7 +54,7 @@ class TimeSheetController extends Controller
      */
     public function store(CreateSheetRequest $request)
     {
-        if($this->TimeSheetService->createTimeSheet($request)) {
+        if ($this->TimeSheetService->createTimeSheet($request->except('_token'))) {
             $request->session()->flash('successTS','create TimeSheet success');
         }
         else {
@@ -114,7 +95,7 @@ class TimeSheetController extends Controller
      */
     public function update(UpdateSheetRequest $request, TimeSheet $sheet)
     {
-        if($this->TimeSheetService->updateTimeSheet($request, $sheet)) {
+        if ($this->TimeSheetService->updateTimeSheet($sheet, $request->except('_token'))) {
             $request->session()->flash('successTS','update TimeSheet success');
         }
         else {

@@ -32,7 +32,7 @@ Route::post('/update-password', [App\Http\Controllers\UserController::class, 'up
 Route::get('/send-mail', [App\Http\Controllers\UserController::class, 'send_mail'])->name('user.send_mail');
 
 //admin
-Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:manage-users')->group(function(){
+Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
     Route::resource('/users', '\App\Http\Controllers\Admin\UsersController');
 });
 

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\timesheet;
+use App\Models\TimeSheet;
 class Task extends Model
 {
     use HasFactory;
@@ -23,7 +23,8 @@ class Task extends Model
     public $primaryKey = 'id';
     public $timestamps = true;
     public function timesheet() {
-        return $this->belongsToMany('App\Models\timesheet', 'task_timesheet', 'tasks_id', 'sheet_id');
+        return $this->belongsToMany(TimeSheet::class, 'task_timesheet', 'tasks_id', 'sheet_id');
     }
 }
-    
+  
+

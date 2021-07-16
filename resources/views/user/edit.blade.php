@@ -10,7 +10,7 @@
                     <form method="POST" action="{{ route('user.update') }}" enctype="multipart/form-data">
                         @csrf
 
-                        @if(session('mess'))
+                        @if (session('mess'))
                             <div class="alert" role="alert">
                                  {{session('mess')}}
                              </div>

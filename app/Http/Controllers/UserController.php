@@ -33,8 +33,9 @@ class UserController extends Controller
             return redirect()->back();
         }
     }
+
     public function update(Request $request) {
-        if($this->userService->updateUser($request)) {
+        if ($this->userService->updateUser($request->except('_token'))) {
             $request->session()->flash('mess', 'update success');
         }  
         else {
@@ -46,10 +47,11 @@ class UserController extends Controller
     public function change_password() {
         return view('user.change_password');
     }
+    
     public function update_password(Request $request) {
         
-        if (Hash::check($request->old_password,$user->password)) {
-            if($this->userService->updatePassword($request)) {
+        if (Hash::check($request->old_password, $user->password)) {
+            if ($this->userService->updatePassword($request)) {
                 return redirect()->back()->with('success', 'Change password success');
             }
             return redirect()->back()->with('error', 'Change password not success');
@@ -63,11 +65,12 @@ class UserController extends Controller
     public function manager() {
         $user = Auth::user();
         if ($user->hasAnyRoles(['manager'])) {
-            $users = User::where('permission_id', $user->permission_id)->get();
-            return view('admin.users.index')->with('users', $users);
+            $users = User::where('permission_id', $user->permission_id)->where('username', 'NOT LIKE', '%' . $user->username . '%')->get();
+            return view('admin.users.index', compact('users'));
         }
         if ($user->hasAnyRoles(['admin'])) {
-            return redirect()->route('admin.users.index');
+            $users = User::where('username', 'NOT LIKE', '%' . $user->username . '%')->get();
+            return view('admin.users.index', compact('users'));
         }
         return redirect()->back()->with('error', 'Not have access');  
     }

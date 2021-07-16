@@ -10,8 +10,8 @@ use Illuminate\Http\Request;
 
 interface TaskServiceInterface
 {
-    public function createTask(TimeSheet $sheet, CreateTaskRequest $request);
-    public function updateTask(UpdateTaskRequest $request, TimeSheet $sheet, Task $task);
-    public function deleteTask(TimeSheet $sheet, Task $task, Request $request);
+    public function createTask(TimeSheet $sheet, array $data);
+    public function updateTask(Task $task, array $data);
+    public function deleteTask(Task $task, Request $request);
 }
 

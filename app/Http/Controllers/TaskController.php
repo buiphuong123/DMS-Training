@@ -49,7 +49,7 @@ class TaskController extends Controller
      */
     public function store(TimeSheet $sheet, CreateTaskRequest $request)
     {
-        if ($this->taskService->createTask($sheet, $request)) {
+        if ($this->taskService->createTask($sheet, $request->except('_token'))) {
             $request->session()->flash('success','create task success');
         }
         else {
@@ -90,7 +90,7 @@ class TaskController extends Controller
      */
     public function update(UpdateTaskRequest $request, TimeSheet $sheet, Task $task)
     {
-        if ($this->taskService->updateTask($request, $sheet, $task)) {
+        if ($this->taskService->updateTask($task, $request->except('_token'))) {
             $request->session()->flash('successTS','update task success');
         }
         else {
@@ -107,7 +107,7 @@ class TaskController extends Controller
      */
     public function destroy(TimeSheet $sheet, Task $task, Request $request)
     {
-        if ($this->taskService->deleteTask($sheet, $task, $request)) {
+        if ($this->taskService->deleteTask($task, $request)) {
             $request->session()->flash('success', 'delete Task success');
         }
         else {

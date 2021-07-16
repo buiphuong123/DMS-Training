@@ -28,7 +28,7 @@ class TimeSheet extends Model
         return $this->belongsTo(User::class);
     }
     public function task() {
-        return $this->belongsToMany('App\Models\Task', 'task_timesheet', 'sheet_id', 'tasks_id');
+        return $this->belongsToMany(Task::class, 'task_timesheet', 'sheet_id', 'tasks_id');
     }
     
 }

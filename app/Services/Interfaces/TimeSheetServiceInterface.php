@@ -9,8 +9,8 @@ use Illuminate\Http\Request;
 
 interface TimeSheetServiceInterface
 {
-    public function createTimeSheet(CreateSheetRequest $request);
-    public function updateTimeSheet(UpdateSheetRequest $request, TimeSheet $sheet);
+    public function createTimeSheet(array $data);
+    public function updateTimeSheet(TimeSheet $sheet, array $data);
     public function deleteTimeSheet(TimeSheet $sheet, Request $request);
 
 }

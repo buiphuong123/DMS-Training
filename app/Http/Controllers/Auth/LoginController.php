@@ -49,7 +49,7 @@ class LoginController extends Controller
     }
 
     public function redirectTo(){
-        if(Auth::user()->hasAnyRoles(['admin'])){
+        if (Auth::user()->hasAnyRoles(['admin'])){
             return route('admin.users.index');
         }
 

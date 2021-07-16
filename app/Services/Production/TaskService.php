@@ -12,26 +12,25 @@ use Illuminate\Http\Request;
 
 class TaskService extends BaseService implements TaskServiceInterface
 {
-    public function createTask(TimeSheet $sheet, CreateTaskRequest $request) {
+    public function createTask(TimeSheet $sheet, array $data) {
         $task = $sheet->task()->create([
-            'task_id' => $request->input('task_id'),
-            'infomation' => $request->input('infomation'),
-            'time' => $request->input('time'),
+            'task_id' => \Arr::get($data, 'task_id'),
+            'infomation' => \Arr::get($data, 'infomation'),
+            'time' => \Arr::get($data, 'time'),
         ]);
         return $task;
     }
 
-    public function updateTask(UpdateTaskRequest $request, TimeSheet $sheet, Task $task) {
+    public function updateTask(Task $task, array $data) {
         $tasks = $task->update([
-            'name' => $request->name,
-            'hard' => $request->hard,
-            'plan' => $request->plan,
-            'date_create' => $request->date_create,
+            'task_id' => \Arr::get($data, 'task_id'),
+            'infomation' => \Arr::get($data, 'infomation'),
+            'time' => \Arr::get($data, 'time'),
         ]);
         return $tasks;
     }
 
-    public function deleteTask(TimeSheet $sheet, Task $task, Request $request) {
+    public function deleteTask(Task $task, Request $request) {
         $task->delete();
         return $task;
     }

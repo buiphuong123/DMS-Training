@@ -26,7 +26,7 @@ class RegisterController extends Controller
     }
    public function store(CreateUserRequest $request)
    {
-        if ($this->userService->createUser($request)) {
+        if ($this->userService->createUser($request->except('_token'))) {
             $request->session()->flash('successTS','register success');
         }
         else {
